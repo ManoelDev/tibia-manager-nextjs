@@ -28,7 +28,7 @@ const recovery = async (req: Request) => {
       code,
       expired_at: dayjs().add(1, 'day').toDate(),
       isValid: true,
-      accounts_id: existsUser.id
+      accountsId: existsUser.id
     }
   })
 

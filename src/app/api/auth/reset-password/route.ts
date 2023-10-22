@@ -24,7 +24,7 @@ const validate = async (request: Request) => {
   console.log('body', code, token)
   const getToken = await prisma.tokens.findFirst({
     where: { code, token, isValid: true }, include: {
-      account: {
+      accounts: {
         select: {
           email: true,
         }
@@ -43,7 +43,7 @@ const validate = async (request: Request) => {
   const newPass = randomCode(10)
 
   await prisma.accounts.update({
-    where: { id: getToken.accounts_id! },
+    where: { id: getToken.accountsId! },
     data: { password: encryptPassword(newPass) }
   })
   await prisma.tokens.update({
@@ -52,7 +52,7 @@ const validate = async (request: Request) => {
   })
 
   await emailProvider.SendMail({
-    to: getToken.account?.email!,
+    to: getToken.accounts?.email!,
     subject: lua['serverName'] + ' Reset email',
     html: `
     <div>
