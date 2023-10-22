@@ -19,6 +19,11 @@ import Link from "next/link"
 
 interface UseRegisterFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
+const passwordUppercase = z.string().regex(/[A-Z]/, 'The password should contain at least 1 uppercase character');
+const passwordLowercase = z.string().regex(/[a-z]/, 'The password must contain at least one lowercase letter');
+const passwordDigit = z.string().regex(/\d/, 'The password must contain at least one numeric digit');
+const passwordSpecialChar = z.string().regex(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/, 'The password must contain at least one special character');
+
 const sexOptions = [{ value: '0', label: 'Male' }, { value: '1', label: 'Female' }]
 
 export function UseRegisterForm({ className, ...props }: UseRegisterFormProps) {
@@ -28,8 +33,16 @@ export function UseRegisterForm({ className, ...props }: UseRegisterFormProps) {
   const loginFormSchema = z.object({
     accountName: z.string(),
     email: z.string().email(),
-    password: z.string().min(8),
-    passwordConfirm: z.string().min(8),
+    password: z.string().min(8, 'A senha deve ter no mínimo 8 caracteres')
+      .and(passwordUppercase)
+      .and(passwordLowercase)
+      .and(passwordDigit)
+      .and(passwordSpecialChar),
+    passwordConfirm: z.string().min(8, 'A senha deve ter no mínimo 8 caracteres')
+      .and(passwordUppercase)
+      .and(passwordLowercase)
+      .and(passwordDigit)
+      .and(passwordSpecialChar),
     characterName: z.string(),
     gender: z.string(),
     wLocation: z.string().optional(),
@@ -48,7 +61,6 @@ export function UseRegisterForm({ className, ...props }: UseRegisterFormProps) {
   const { handleSubmit, formState: { isSubmitting } } = methods
 
   async function onSubmit(data: LoginFormValues) {
-    // await new Promise(resolve => setTimeout(resolve, 1000))
     fetch("/api/auth/register", {
       method: "POST",
       headers: {
