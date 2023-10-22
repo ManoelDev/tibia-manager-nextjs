@@ -27,9 +27,9 @@ const handleCreate = async (req: Request) => {
 
     await prisma.socialMedias.upsert({
       where: { account_id: acc.id },
-      update: { instagran: instagram, twitch, youtube },
+      update: { instagram, twitch, youtube },
       create: {
-        instagran: instagram, twitch, youtube, account: {
+        instagram, twitch, youtube, account: {
           connect: {
             id: acc.id
           }
