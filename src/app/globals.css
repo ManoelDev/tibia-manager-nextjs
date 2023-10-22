@@ -1,0 +1,104 @@
+@tailwind base;
+
+@layer base {
+  .no-tailwindcss-base h1,
+  .no-tailwindcss-base h2,
+  .no-tailwindcss-base h3,
+  .no-tailwindcss-base h4,
+  .no-tailwindcss-base h5,
+  .no-tailwindcss-base h6 {
+    font-size: revert;
+    font-weight: revert;
+  }
+
+  .no-tailwindcss-base ol,
+  .no-tailwindcss-base ul {
+    list-style: revert;
+    margin: revert;
+    padding: revert;
+  }
+
+  .no-tailwindcss-base {
+    font-size: 11pt;
+  }
+  .no-tailwindcss-base p,
+  .no-tailwindcss-base img,
+  .no-tailwindcss-base svg,
+  .no-tailwindcss-base video,
+  .no-tailwindcss-base canvas,
+  .no-tailwindcss-base audio,
+  .no-tailwindcss-base iframe,
+  .no-tailwindcss-base embed,
+  .no-tailwindcss-base object {
+    display: revert;
+    vertical-align: revert;
+    list-style: revert;
+    margin: revert;
+    padding: revert;
+  }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border p-0 m-0;
+  }
+  body {
+    /*
+    @apply bg-background text-foreground p-0 m-0 box-border;
+    */
+    @apply bg-[url('/backgrounds/background-artwork.jpg')] bg-no-repeat bg-top bg-[#051122] text-[12pt];
+  }
+  p {
+    @apply text-[12pt];
+  }
+}
