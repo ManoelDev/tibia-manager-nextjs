@@ -4,6 +4,7 @@ import { Input, InputProps } from '../ui/input'
 import { Label } from '../ui/label'
 import React from 'react'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
+import { randomUUID } from 'crypto'
 
 type IProps = {
   name: string
@@ -44,9 +45,8 @@ export default function RHFRadioGroup({ name, label, options }: Props) {
 
 type RHFRadioGroupItemShopProps = {
   name: string
-  options: { title: string, value: string, currency: string, img_url: string }[]
+  options: { title: string, id: number, price: string, currency: string, img_url: string }[]
   defaultValue?: string
-
 }
 
 export function RHFRadioGroupItemShop({ name, options = [] }: RHFRadioGroupItemShopProps) {
@@ -64,21 +64,21 @@ export function RHFRadioGroupItemShop({ name, options = [] }: RHFRadioGroupItemS
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 p-2"
         >
           {
-            options.map((opt) => {
-              return (<>
-                <div className="bg-[url('/shop/serviceid_icon_normal.png')] w-[150px] h-[150px]">
+            options.map((opt, i) => {
+              return (
+                <div key={i} className="bg-[url('/shop/serviceid_icon_normal.png')] w-[150px] h-[150px]">
                   <div className="flex flex-col justify-between items-center hover:bg-[url('/shop/serviceid_icon_over.png')] w-[150px] h-[150px]">
-                    <RadioGroupItem value={opt.value} id={inputId} className="peer sr-only absolute" />
+                    <RadioGroupItem value={opt.id.toString()} id={i.toString()} className="peer sr-only absolute" />
                     <Label
-                      htmlFor={inputId}
+                      htmlFor={i.toString()}
                       className="flex flex-col absolute w-[150px] h-[150px] peer-data-[state=checked]:bg-[url('/shop/serviceid_icon_selected.png')] [&:has([data-state=checked])]:bg-[url('/shop/serviceid_icon_selected.png')] peer-disabled:bg-[url('/shop/serviceid_deactivated.png')] cursor-pointer"
                     />
                     <div className="pt-[18px] text-white text-[10px]">{opt.title}</div>
-                    <Image src={'/shop/serviceid_133.png'} width={128} height={64} alt={""} />
-                    <div className="pb-[8px] text-white text-[10px]">{opt.value} {opt.currency} *</div>
+                    <Image src={opt.img_url} width={128} height={64} alt={""} />
+                    <div className="pb-[8px] text-white text-[10px]">{opt.price} {opt.currency} *</div>
                   </div>
                 </div>
-              </>)
+              )
             })
           }
         </RadioGroup>

@@ -918,6 +918,7 @@ model server_config {
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model store_history {
+  id          Int      @id @default(autoincrement())
   account_id  Int
   mode        Boolean  @default(false)
   amount      Int
@@ -928,7 +929,6 @@ model store_history {
   accounts    accounts @relation(fields: [account_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "store_history_ibfk_1")
 
   @@index([account_id], map: "store_history_ibfk_1")
-  @@ignore
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -1052,10 +1052,11 @@ model Products {
   id          Int     @id @default(autoincrement())
   category_id Int
   title       String
+  quantity    Int?
   content     String  @db.TinyText()
   slug        String? @db.VarChar(100)
   img_url     String?
-  price       Decimal
+  price       String
   currency    String?
 
   createdAt  DateTime            @default(now()) @map("created_at")
@@ -1074,32 +1075,20 @@ enum ORDER_STATUS {
 
 model Orders {
   id           Int          @id @default(autoincrement())
-  account_id   Int          @unique
+  account_id   Int
   status       ORDER_STATUS @default(PROCECING)
-  token        String       @db.VarChar(100)
-  provider     String       @db.VarChar(100)
+  provider     String?      @db.VarChar(100)
   currency     String
-  total_amount Decimal
-
-  details OrderDetails[]
+  total_amount String
+  orderID      String
+  payerID      String?
+  paymentID    String?
+  description  String
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 
   @@map("wp_products_orders")
-}
-
-model OrderDetails {
-  id          Int      @id @default(autoincrement())
-  order_id    Int      @default(0)
-  product_id  Int      @default(0)
-  ordersId    Int      @default(0)
-  order_price Decimal
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  Orders Orders? @relation(fields: [ordersId], references: [id])
-
-  @@map("wp_orders_details")
 }
 
 model Tokens {

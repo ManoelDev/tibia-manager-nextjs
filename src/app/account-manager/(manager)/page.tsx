@@ -39,7 +39,13 @@ async function getAccount(id: number) {
   return account
 }
 
-export default async function Dashboard() {
+type Params = {
+  params: { slug: string };
+  searchParams: { [key: string]: string | undefined };
+}
+
+export default async function Dashboard({ params, searchParams }: Params) {
+
   const session = await getServerSession(authOptions);
   const user = session?.user;
   if (!user) redirect('/')
@@ -98,7 +104,7 @@ export default async function Dashboard() {
   //     </Card>
   //   )
   // }
-
+  const InitialTab = searchParams?.tab ?? 'status'
   return (
     <>
       <Card>
@@ -161,8 +167,8 @@ export default async function Dashboard() {
         </div>
 
 
-        <Tabs defaultValue="status" className="p-2 pt-0 rounded-sm ">
-          <TabsList className="w-full border-[1px] rounded-sm  bg-gray-100">
+        <Tabs defaultValue={InitialTab} className="p-2 pt-0 rounded-sm" activationMode="manual">
+          <TabsList className="w-full border-[1px] rounded-sm bg-gray-100">
             <TabsTrigger value="status" className="rounded-sm">Status</TabsTrigger>
             <TabsTrigger value="account" className="rounded-sm">Account</TabsTrigger>
             <TabsTrigger value="history" className="rounded-sm">History</TabsTrigger>
@@ -198,21 +204,21 @@ export default async function Dashboard() {
                       <TableRow>
                         <TableCell>Tibia Coins:</TableCell>
                         <TableCell className="flex items-center gap-1">
-                          {acc?.transferable_coins}{' '}
+                          {acc?.coins}{' '}
                           <TooltipProvider>
                             <Tooltip>
-                              <TooltipTrigger><Image src="/icons/icon-tibiacoin.png" alt="tibiacointrusted" width={16} height={16} className=" w-auto h-auto" /></TooltipTrigger>
+                              <TooltipTrigger><Image src="/icons/icon-tibiacointrusted.png" alt="tibiacointrusted" width={16} height={16} className=" w-auto h-auto" /></TooltipTrigger>
                               <TooltipContent>
                                 <p>Tibia Coins</p>
                               </TooltipContent>
                             </Tooltip>
                           </TooltipProvider>
                           {' '}
-                          ( include {acc?.coins}
+                          ( include {acc?.tournamentBalance.toString()}
                           {' '}
                           <TooltipProvider>
                             <Tooltip>
-                              <TooltipTrigger><Image src="/icons/icon-tibiacointrusted.png" alt="tibiacointrusted" width={16} height={16} className=" w-auto h-auto" /></TooltipTrigger>
+                              <TooltipTrigger><Image src="/icons/icon-tibiacoin.png" alt="tibiacointrusted" width={16} height={16} className=" w-auto h-auto" /></TooltipTrigger>
                               <TooltipContent >
                                 <p>No Transferable Coins</p>
                               </TooltipContent>
@@ -221,7 +227,7 @@ export default async function Dashboard() {
                           )</TableCell>
                       </TableRow>
 
-                      <TableRow>
+                      {/* <TableRow>
                         <TableCell className="w-[170px]">Tournament Coins:</TableCell>
                         <TableCell className="flex flex-row items-center gap-1">{acc?.tournamentBalance.toString()}
                           <TooltipProvider>
@@ -233,7 +239,7 @@ export default async function Dashboard() {
                             </Tooltip>
                           </TooltipProvider>
                         </TableCell>
-                      </TableRow>
+                      </TableRow> */}
 
                       <TableRow>
                         <TableCell className="w-[170px]">Loyalty Points:</TableCell>

@@ -1,7 +1,9 @@
+
 import { getServerSession } from "next-auth/next"
 import { Metadata } from "next"
 import { authOptions } from "@/lib/auth"
 import { redirect } from "next/navigation"
+
 
 export const metadata: Metadata = {
   title: "Coin Shop",
@@ -17,6 +19,7 @@ export default async function ShopLayout({ children }: ShopLayoutProps) {
   return (
     <>
       {children}
+
     </>
   )
 }
