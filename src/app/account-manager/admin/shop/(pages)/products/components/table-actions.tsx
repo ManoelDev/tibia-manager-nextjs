@@ -8,7 +8,7 @@ import EditProduct from "./edit-product";
 
 
 
-export default function TableAction({ product }: { product: { id: number, title: string, price: string, quantity: number | null, category_id: number, img: string | null } }) {
+export default function TableAction({ product }: { product: { id: number, title: string, price: string, quantity: number | null, category_id: number, img: string } }) {
   const route = useRouter()
 
   const deleteItem = async (id: number) => {

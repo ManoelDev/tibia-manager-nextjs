@@ -42,6 +42,7 @@ export default function RoadMap() {
     if (inView) {
       setPage(page + 1)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
   return (

@@ -1,6 +1,5 @@
 import { Controller, useFormContext } from 'react-hook-form'
 
-import UploadSingleFile from "../upload/UploadSingleFile"
 import Upload from '../upload/Upload';
 import { UploadProps } from '../upload/types';
 import UploadShopImage from '../upload/UploadShop';
@@ -12,7 +11,6 @@ interface Props extends Omit<UploadProps, 'file'> {
 
 export function RHFUploadShopImage({ name, ...other }: Props) {
   const { control } = useFormContext();
-
   return (
     <Controller
       name={name}
@@ -31,35 +29,6 @@ export function RHFUploadShopImage({ name, ...other }: Props) {
       )}
     />
   );
-}
-
-export function RHFUploadSingleFile({ name, ...other }: Props) {
-  const { control } = useFormContext()
-
-  return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field, fieldState: { error } }) => {
-        const checkError = !!error && !field.value
-        return (
-          <UploadSingleFile
-            accept={{ 'image/*': [] }}
-            file={field.value}
-            error={checkError}
-            helperText={
-              checkError && (
-                <div className='text-sm text-red-500'>
-                  {error.message}
-                </div>
-              )
-            }
-            {...other}
-          />
-        )
-      }}
-    />
-  )
 }
 
 export function RHFUpload({ name, multiple, helperText, ...other }: Props) {
