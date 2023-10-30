@@ -28,7 +28,7 @@ export function MainNav({
         href={BASE_ADMIN_PATH}
         className={`text-sm font-medium transition-colors  hover:text-primary ${ultimoPath !== 'admin' && 'text-muted-foreground'}`}
       >
-        Overview
+        Manager
       </Link>
       {/* <Link
         href={`${BASE_ADMIN_PATH}/accounts`}
@@ -37,10 +37,10 @@ export function MainNav({
         Accounts
       </Link> */}
       <Link
-        href={`${BASE_ADMIN_PATH}/products`}
-        className={`text-sm font-medium transition-colors hover:text-primary ${ultimoPath !== 'products' && 'text-muted-foreground'}`}
+        href={`${BASE_ADMIN_PATH}/shop`}
+        className={`text-sm font-medium transition-colors hover:text-primary ${ultimoPath !== 'shop' && 'text-muted-foreground'}`}
       >
-        Products
+        Shop
       </Link>
       <Link
         href={`${BASE_ADMIN_PATH}/blog`}
@@ -48,12 +48,12 @@ export function MainNav({
       >
         Blog
       </Link>
-      <Link
+      {/* <Link
         href={`${BASE_ADMIN_PATH}/settings`}
         className={`text-sm font-medium transition-colors hover:text-primary ${ultimoPath !== 'settings' && 'text-muted-foreground'}`}
       >
         Settings
-      </Link>
+      </Link> */}
     </nav>
   )
 }

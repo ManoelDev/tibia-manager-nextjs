@@ -35,7 +35,7 @@ const CreateOrders = async (req: Request) => {
       "intent": "CAPTURE",
       "purchase_units": [
         {
-          "amount": { "currency_code": "BRL", "value": body.value },
+          "amount": { currency_code: body.currency_code, "value": body.value },
           description: body.description
         }
       ],
@@ -46,7 +46,7 @@ const CreateOrders = async (req: Request) => {
     await prisma.orders.create({
       data: {
         account_id: account.id,
-        currency: "BRL",
+        currency: body.currency_code,
         orderID: response.result.id,
         description: body.description,
         total_amount: body.value,

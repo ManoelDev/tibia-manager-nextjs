@@ -2,16 +2,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Typography } from "@/components/Typography";
-import { Button } from "@/components/ui/button";
 import TableEmptyState from "@/components/table-empty-state";
-import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-
 
 interface Guilds {
   id: number

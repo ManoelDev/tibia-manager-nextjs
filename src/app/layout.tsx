@@ -1,8 +1,9 @@
 import './globals.css'
+import 'react-lazy-load-image-component/src/effects/blur.css';
+
 import Image from 'next/image'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-
 const inter = Inter({ subsets: ['latin'] })
 
 import { Toaster } from "@/components/ui/toaster"
@@ -20,8 +21,6 @@ import { StatusServer } from '@/utils/statusServer'
 import { Typography } from '@/components/Typography'
 import { prisma } from '@/lib/prisma'
 import { Badge } from '@/components/ui/badge'
-import { Suspense } from 'react'
-import { IconiFy } from '@/components/Iconify'
 
 const lua = configLua()
 

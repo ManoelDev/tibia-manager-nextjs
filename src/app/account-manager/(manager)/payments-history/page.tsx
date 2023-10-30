@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { authOptions } from "@/lib/auth";
@@ -6,14 +7,24 @@ import { prisma } from "@/lib/prisma";
 import dayjs from "dayjs";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 async function getPaymentsHistory(id: number) {
   const account = await prisma.orders.findMany({
-    where: { account_id: Number(id) }
+    where: { account_id: Number(id) },
+    take: 10,
+    orderBy: { id: 'desc' }
   })
   return account
 }
+
+const STATUS_TYPE: { [key: string]: "error" | "default" | "info" | "destructive" | "outline" | "secondary" | "success" | "warning" | null | undefined } = {
+  DELIVERED: "success",
+  PENDING: "info",
+  CANCELED: "destructive"
+};
+
 
 export default async function PaymentsHistory() {
   const session = await getServerSession(authOptions);
@@ -44,32 +55,20 @@ export default async function PaymentsHistory() {
               <TableBody>
                 {history.map((order, i) =>
                 (<TableRow key={i.toString()}>
-                  <TableCell className="text-sm">{order.paymentID}</TableCell>
+                  <TableCell className="text-xs font-medium">{order.paymentID}</TableCell>
                   <TableCell>{order.description}</TableCell>
                   <TableCell>{dayjs(order.createdAt).format('DD/MM/YYYY')}</TableCell>
                   <TableCell className="text-center"><Image src='/payments/paymentmethodcategory31.gif' width={69} height={23} alt="PayPal" /></TableCell>
                   <TableCell className="text-center">
-                    {
-                      order.status === "DELIVERED" && (<Badge variant={'success'}>
-                        {order.status}
-                      </Badge>)
-                    }
-                    {
-                      order.status === "PENDING" && (<Badge variant={'info'}>
-                        {order.status}
-                      </Badge>)
-                    }
-                    {
-                      order.status === "CANCELED" && (<Badge variant={'destructive'}>
-                        {order.status}
-                      </Badge>)
-                    }
-
+                    <Badge variant={STATUS_TYPE[order.status]} className="w-full justify-center">{order.status}</Badge>
                   </TableCell>
                 </TableRow>)
                 )}
               </TableBody>
             </Table>
+          </div>
+          <div className="flex justify-end">
+            <Button asChild><Link href={`/account-manager/`}>Back</Link></Button>
           </div>
         </CardContent>
       </Card>

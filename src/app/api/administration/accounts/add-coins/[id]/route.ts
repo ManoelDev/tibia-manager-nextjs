@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import dayjs from 'dayjs';
 
 const CreatePlayersSchema = z
   .object({
@@ -30,6 +31,16 @@ const handleAddCoins = async (req: Request, { params }: { params: Params }) => {
       },
     })
 
+    await prisma.store_history.create({
+      data: {
+        account_id: +id,
+        coin_type: 1,
+        amount: data.amount,
+        description: `Received ${data.amount} coins with system`,
+        cust: data.amount,
+        time: dayjs().unix()
+      }
+    })
 
     return NextResponse.json({ message: `Add ${data.amount} to account.` }, { status: 200 });
   } catch (err) {

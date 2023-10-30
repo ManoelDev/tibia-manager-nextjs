@@ -102,6 +102,7 @@ export function AddCoinsForm({ children, id }: FormProps) {
                   disabled={isSubmitting}
                 />
                 <RHFSelect
+                  LabelOption={'label'} keyValue={'value'}
                   label='type'
                   options={[{ value: 'transferable_coins', label: 'Transferable' }, { value: 'coins', label: 'No transferable' }]}
                   name="type"

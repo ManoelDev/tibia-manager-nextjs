@@ -113,6 +113,7 @@ export function CharacterForm() {
                     disabled={isSubmitting}
                   />
                   <RHFSelect
+                    LabelOption={'label'} keyValue={'value'}
                     label='Sex'
                     options={[{ value: '0', label: 'Male' }, { value: '1', label: 'Female' }]}
                     name="sex"

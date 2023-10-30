@@ -1,5 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import dayjs from "dayjs";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server"
 import { z } from "zod";
@@ -27,7 +28,10 @@ const Checkout = async (request: Request, { params }: { params: Params }) => {
     if (!session?.user) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
 
     const findOrder = await prisma.orders.findFirst({ where: { orderID } })
+    if (!findOrder) return NextResponse.json({ message: 'Order not found.' }, { status: 400 })
+
     const getAccount = await prisma.accounts.findFirst({ where: { id: findOrder?.account_id } })
+    if (!getAccount) return NextResponse.json({ message: 'Account not found.' }, { status: 400 })
 
     await prisma.orders.update({
       where: { id: findOrder?.id },
@@ -38,22 +42,27 @@ const Checkout = async (request: Request, { params }: { params: Params }) => {
         provider: 'paypal'
       }
     })
+    const data = {
+      [body.type]: { increment: body.quantity }
+    }
+
+    if (body.type === 'premdays') Object.assign(data, { lastday: 0 })
 
     await prisma.accounts.update({
       where: { id: +session.user.id },
-      data: {
-        [body.type]: { increment: body.quantity },
-      },
+      data,
     })
 
-    // await prisma.store_history.create({
-    //   data: {
-    //     account_id: getAccount?.id,
-    //     coin_type: body.type === 'coins' ? 1 : 0,
-    //     amount: body.quantity,
-    //   }
-    // })
-
+    await prisma.store_history.create({
+      data: {
+        account_id: getAccount.id,
+        coin_type: 1,
+        amount: body.quantity,
+        description: body.type === 'coins' ? `Deposit ${body.quantity} coins with PayPal` : `Buy ${body.quantity} VIP time days with PayPal`,
+        cust: body.quantity,
+        time: dayjs().unix()
+      }
+    })
 
     return NextResponse.json({});
 

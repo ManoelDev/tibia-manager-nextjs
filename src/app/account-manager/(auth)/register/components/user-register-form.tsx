@@ -141,6 +141,7 @@ export function UseRegisterForm({ className, ...props }: UseRegisterFormProps) {
             disabled={isSubmitting}
           />
           <RHFSelect
+            LabelOption={'label'} keyValue={'value'}
             name="gender"
             label="Sex"
             defaultValue={'0'}

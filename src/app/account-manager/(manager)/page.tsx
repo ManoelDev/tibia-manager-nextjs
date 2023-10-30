@@ -25,6 +25,7 @@ import { ChangeSocialMediaForm } from "./components/change-social-media-form";
 import { convertBigIntsToNumbers } from '@/utils/functions/convertBigIntsToNumbers'
 import ActiveEmailRequest from "./components/acitver-email-request";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
 
 async function getAccount(id: number) {
   const account = await prisma.accounts.findUnique({
@@ -73,27 +74,21 @@ export default async function Dashboard({ params, searchParams }: Params) {
   //                 <TableCell className="w-[140px]">Date:</TableCell>
   //                 <TableCell>AA</TableCell>
   //               </TableRow>
-
   //               <TableRow>
   //                 <TableCell className="w-[140px]">Last Edit date:</TableCell>
   //                 <TableCell>AA</TableCell>
   //               </TableRow>
-
   //               <TableRow>
   //                 <TableCell className="w-[140px]">Reason:</TableCell>
   //                 <TableCell>AA</TableCell>
   //               </TableRow>
-
-  //               <TableRow>
   //                 <TableCell className="w-[140px]">Comment:</TableCell>
   //                 <TableCell>AA</TableCell>
   //               </TableRow>
-
   //               <TableRow>
   //                 <TableCell className="w-[140px]">Statement:</TableCell>
   //                 <TableCell>AA</TableCell>
   //               </TableRow>
-
   //             </TableBody>
   //           </Table>
   //         </div >
@@ -104,6 +99,7 @@ export default async function Dashboard({ params, searchParams }: Params) {
   //     </Card>
   //   )
   // }
+
   const InitialTab = searchParams?.tab ?? 'status'
   return (
     <>
@@ -111,7 +107,6 @@ export default async function Dashboard({ params, searchParams }: Params) {
         <CardHeader className="border-b">
           <CardTitle>Account Manager</CardTitle>
         </CardHeader>
-
 
         <div className="p-2 space-y-2">
           <div className="rounded-sm border">
@@ -128,7 +123,7 @@ export default async function Dashboard({ params, searchParams }: Params) {
                     {acc?.premdays ? (
                       <>
                         <Typography variant={"h6"} className="text-green-500 leading-none" >Premium Account</Typography>
-                        <Typography variant={"overline"} className="text-sm leading-none">( Balance of Premium Time: {acc?.premdays} days )</Typography>
+                        <Typography variant={"overline"} className="text-sm leading-none">( Balance of Premium Time: <strong>{acc?.premdays}</strong> days )</Typography>
                       </>
                     ) : (
                       <>
@@ -146,7 +141,7 @@ export default async function Dashboard({ params, searchParams }: Params) {
                     <Link href={'/account-manager/admin'}>Admin Panel</Link>
                   </Button>
                 )}
-                <Button className="whitespace-nowrap">Get Premium</Button>
+                <Button className="whitespace-nowrap" asChild><Link href={'/shop'}>Shop</Link></Button>
                 <LogoutButton />
               </div>
 
@@ -251,7 +246,7 @@ export default async function Dashboard({ params, searchParams }: Params) {
                       </TableRow>
                       <TableRow>
                         <TableCell className="w-[170px]">Registered:</TableCell>
-                        <TableCell className="">{acc.email_verified === true ? "Registered" : "Unregistered"}</TableCell>
+                        <TableCell className="uppercase"><Badge variant={acc.email_verified === true ? "success" : "destructive"}>{acc.email_verified === true ? "Registered" : "Unregistered"}</Badge></TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>

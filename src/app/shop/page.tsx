@@ -21,46 +21,16 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
-const PRODUCTS = [
-  // [
-  //   { title: '100 Tibia Coins', quantity: 250, id: 1, price: '10.08', img_url: '/shop/serviceid_133.png', currency: 'USD' },
-  //   { title: '750 Tibia Coins', quantity: 750, id: 2, price: '28.04', img_url: '/shop/serviceid_134.png', currency: 'USD' },
-  //   { title: '1500 Tibia Coins', quantity: 1500, id: 3, price: '56.08', img_url: '/shop/serviceid_135.png', currency: 'USD' },
-  //   { title: '3000 Tibia Coins', quantity: 3000, id: 4, price: '112.16', img_url: '/shop/serviceid_136.png', currency: 'USD' },
-  //   { title: '4500 Tibia Coins', quantity: 4500, id: 5, price: '168.24', img_url: '/shop/serviceid_137.png', currency: 'USD' },
-  //   { title: '15000 Tibia Coins', quantity: 15000, id: 6, price: '560.81', img_url: '/shop/serviceid_138.png', currency: 'USD' },
-  // ],
-  [
-    { title: '100 Tibia Coins', quantity: 100, id: 1, price: '2.00', img_url: '/shop/serviceid_193_transferable.png', currency: 'USD' },
-    { title: '300 Tibia Coins', quantity: 300, id: 2, price: '5.00', img_url: '/shop/serviceid_194_transferable.png', currency: 'USD' },
-    { title: '600 Tibia Coins', quantity: 600, id: 3, price: '10.00', img_url: '/shop/serviceid_195_transferable.png', currency: 'USD' },
-    { title: '1500 Tibia Coins', quantity: 1500, id: 4, price: '20.00', img_url: '/shop/serviceid_196_transferable.png', currency: 'USD' },
-    { title: '3000 Tibia Coins', quantity: 3000, id: 5, price: '38.00', img_url: '/shop/serviceid_197_transferable.png', currency: 'USD' },
-    { title: '15000 Tibia Coins', quantity: 6400, id: 6, price: '78.00', img_url: '/shop/serviceid_198_transferable.png', currency: 'USD' },
-    { title: '15000 Tibia Coins', quantity: 13200, id: 7, price: '158.00', img_url: '/shop/serviceid_198_transferable.png', currency: 'USD' },
-    { title: '15000 Tibia Coins', quantity: 30000, id: 8, price: '316.00', img_url: '/shop/serviceid_198_transferable.png', currency: 'USD' },
-  ],
-  [
-    { title: '10 Premium Days', quantity: 10, id: 1, price: '3.32', img_url: '/shop/serviceid_120.png', currency: 'USD' },
-    { title: '30 Premium Days', quantity: 30, id: 2, price: '9.54', img_url: '/shop/serviceid_120.png', currency: 'USD' },
-    { title: '90 Premium Days', quantity: 90, id: 3, price: '25.68', img_url: '/shop/serviceid_120.png', currency: 'USD' },
-    { title: '180 Premium Days', quantity: 180, id: 4, price: '45.63', img_url: '/shop/serviceid_120.png', currency: 'USD' },
-    { title: '360 Premium Days', quantity: 360, id: 5, price: '79.89', img_url: '/shop/serviceid_120.png', currency: 'USD' },
-  ]
-]
-
-
 
 
 export default function PremiumHistory() {
 
   const route = useRouter()
 
-
   const { data: session, status } = useSession()
 
-  const [payments, setPayments] = useState([{ title: 'PayPal', value: 'paypal', img_url: 'string' }]);
-  const [products, setProducts] = useState<any[]>(PRODUCTS[0]);
+  const payments = [{ title: 'PayPal', value: 'paypal', img_url: 'string' }]
+  const [products, setProducts] = useState<any[]>([]);
 
 
   const [activeStep, setActiveStep] = useState(0);
@@ -72,7 +42,6 @@ export default function PremiumHistory() {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
 
   const ShopStepFormSchema = z.object({
     product: z.string(),
@@ -91,6 +60,7 @@ export default function PremiumHistory() {
   })
 
   const { reset, handleSubmit, watch, setValue, formState: { isSubmitting } } = methods
+  const values = watch()
 
   const handleReset = () => {
     setActiveStep(0);
@@ -102,9 +72,32 @@ export default function PremiumHistory() {
 
   const selectedProduct = products?.filter((p) => p.id.toString() === watch('product'))[0]
 
+  async function GetProducts(category: string) {
+
+    const req = await fetch(`/api/shop/product/${category}`)
+
+    if (req.ok) {
+      const body = await req.json()
+
+      setProducts(body.products.map((p: any) => ({ ...p, img_url: `/shop/${p.img_url}` })))
+    }
+
+  }
+  useEffect(() => {
+
+    if (values.category === 'coins') {
+      GetProducts('1')
+    }
+
+    if (values.category === 'premdays') {
+      GetProducts('2')
+    }
+
+  }, [values.category])
+
   return (
     <>
-      <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!, currency: 'BRL' }}>
+      <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID! }}>
 
         <Card>
           <CardHeader className="border-b">
@@ -119,7 +112,8 @@ export default function PremiumHistory() {
                   <div className='flex p-2 items-center justify-between bg-gray-100 text-sm border-b '>
                     <div className="flex gap-2 items-center">
                       <IconiFy icon={'healthicons:money-bag-outline'} />
-                      Select Product</div>
+                      Select Product
+                    </div>
                     {activeStep > 0 && <IconiFy icon={'ph:check-circle'} className="text-green-600" />}
                   </div>
                   {activeStep === 0 && (
@@ -128,6 +122,7 @@ export default function PremiumHistory() {
 
                         <RHFSelect
                           name="Category"
+                          LabelOption={'label'} keyValue={'value'}
                           defaultValue={watch('category')}
                           options={[
                             // { label: 'Transferable Coins', value: 'transferable_coins' },
@@ -137,11 +132,11 @@ export default function PremiumHistory() {
                           onValueChange={(v) => {
                             reset()
                             setValue('category', v as "coins" | "premdays")
-                            if (v === 'coins') {
-                              setProducts(PRODUCTS[0])
-                            } else if (v === 'premdays') {
-                              setProducts(PRODUCTS[1])
-                            }
+                            // if (v === 'coins') {
+                            //   setProducts(PRODUCTS[0])
+                            // } else if (v === 'premdays') {
+                            //   setProducts(PRODUCTS[1])
+                            // }
                           }}
                         />
                       </div>
@@ -291,7 +286,6 @@ export default function PremiumHistory() {
                               return order.id
                             }}
                             onApprove={async (data, actions) => {
-                              console.log('actions.order?.capture()', actions.order?.capture())
                               await fetch(`/api/shop/paypal/orders/${data.orderID}/capture`, {
                                 method: "post",
                                 body: JSON.stringify({
@@ -301,6 +295,7 @@ export default function PremiumHistory() {
                                   paymentID: data.paymentID
                                 })
                               })
+                              route.push('/account-manager')
                               toast({
                                 variant: 'success',
                                 title: "Account Manager",

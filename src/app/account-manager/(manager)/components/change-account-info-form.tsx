@@ -112,17 +112,17 @@ export function ChangeAccountInfoForm({ defaultValues }: { defaultValues: Omit<f
                 <RHFTextField label="Last Name:" name="lastName" type="text" disabled={isSubmitting} />
               </div>
               <div className="grid sm:grid-cols-2 gap-2">
-                <RHFSelect name="gender" label="Sex:" defaultValue={getValues('gender')} options={genders} />
+                <RHFSelect LabelOption={'label'} keyValue={'value'} name="gender" label="Sex:" defaultValue={getValues('gender')} options={genders} />
                 <RHFTextField label="Mobile Phone:" name="phoneNumber" type="text" disabled={isSubmitting} />
               </div>
               <Typography variant={'h6'} className="py-2">Address</Typography>
               <div className="grid sm:grid-cols-2 gap-2">
                 <RHFTextField label="Postal Code:" name="address.zipCode" type="text" disabled={isSubmitting} />
-                <RHFSelect name="address.country" label="Country:" options={countries ?? []} defaultValue={getValues('address.country')} />
+                <RHFSelect LabelOption={'label'} keyValue={'value'} name="address.country" label="Country:" options={countries ?? []} defaultValue={getValues('address.country')} />
               </div>
               <div className="grid sm:grid-cols-2 gap-2">
-                <RHFSelect name="address.state" label="State/Province:" options={[]} defaultValue={getValues('address.state')} />
-                <RHFSelect name="city" label="City:" options={[]} defaultValue={getValues('address.city')} />
+                <RHFSelect LabelOption={'label'} keyValue={'value'} name="address.state" label="State/Province:" options={[]} defaultValue={getValues('address.state')} />
+                <RHFSelect LabelOption={'label'} keyValue={'value'} name="city" label="City:" options={[]} defaultValue={getValues('address.city')} />
               </div>
               <RHFTextField label="Street Address:" name="address.street" type="text" disabled={isSubmitting} />
               <div className="grid sm:grid-cols-2 gap-2">

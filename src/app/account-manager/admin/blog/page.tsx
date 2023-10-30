@@ -133,6 +133,7 @@ export default function AdminBlog() {
                 />
               </div>
               <RHFSelect
+                LabelOption={'label'} keyValue={'value'}
                 placeholder='Category'
                 name='category'
                 defaultValue={getValues('category')}
