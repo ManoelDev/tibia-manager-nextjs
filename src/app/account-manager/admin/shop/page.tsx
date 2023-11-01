@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
 import { Overview } from "./components/overview";
 import { Orders } from "@prisma/client";
+import { IconiFy } from "@/components/Iconify";
 
 function calculatePercentageChange(previousMonth = 0, currentMonth = 0) {
   if (previousMonth === 0) {
@@ -14,7 +15,11 @@ function calculatePercentageChange(previousMonth = 0, currentMonth = 0) {
   }
   const percentageChange = ((currentMonth - previousMonth) / previousMonth) * 100;
   const changeType = percentageChange > 0 ? "+" : "-";
-  return `${changeType}${Math.round(percentageChange * 10) / 10}% from the previous month`;
+  return (
+    <div className="flex">
+      <IconiFy icon={percentageChange < 0 ? 'eva:trending-down-fill' : 'eva:trending-up-fill'} className={percentageChange > 0 ? 'text-green-500' : 'text-red-500'} />{changeType}{Math.round(percentageChange * 10) / 10}% from the previous month
+    </div>
+  );
 }
 
 async function getMonthlyData(orders: Orders[], status: Orders['status'] = 'DELIVERED') {

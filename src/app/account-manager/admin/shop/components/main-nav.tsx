@@ -23,6 +23,12 @@ export function ShopAdminNav({
       >
         Products
       </Link>
+      <Link
+        href="/account-manager/admin/shop/orders"
+        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+      >
+        Orders
+      </Link>
       {/* <Link
         href="/account-manager/admin/shop/categories"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
