@@ -29,7 +29,7 @@ const create = async (req: Request) => {
       code,
       token,
       expired_at: dayjs().add(1, 'day').toDate(),
-      accountsId: acc.id,
+      account_id: acc.id,
       isValid: true
     }
   })
@@ -95,7 +95,7 @@ const validate = async (request: Request) => {
 
   const key = randomCode(20)
   await prisma.accounts.update({
-    where: { id: getToken.accountsId! },
+    where: { id: getToken.account_id! },
     data: { email_verified: true, key }
   })
 

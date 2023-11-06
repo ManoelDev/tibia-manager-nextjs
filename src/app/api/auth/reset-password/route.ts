@@ -43,7 +43,7 @@ const validate = async (request: Request) => {
   const newPass = randomCode(10)
 
   await prisma.accounts.update({
-    where: { id: getToken.accountsId! },
+    where: { id: getToken.account_id! },
     data: { password: encryptPassword(newPass) }
   })
   await prisma.tokens.update({

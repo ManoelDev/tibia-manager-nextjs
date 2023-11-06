@@ -1067,7 +1067,7 @@ model Products {
 }
 
 enum ORDER_STATUS {
-  PROCECING
+  PROCESSING
   PENDING
   CANCELED
   DELIVERED
@@ -1076,7 +1076,7 @@ enum ORDER_STATUS {
 model Orders {
   id           Int          @id @default(autoincrement())
   account_id   Int
-  status       ORDER_STATUS @default(PROCECING)
+  status       ORDER_STATUS @default(PROCESSING)
   provider     String?      @db.VarChar(100)
   currency     String
   total_amount String
@@ -1098,8 +1098,8 @@ model Tokens {
   expired_at DateTime
   created_at DateTime  @default(now())
   isValid    Boolean   @default(false)
-  accounts   accounts? @relation(fields: [accountsId], references: [id])
-  accountsId Int?
+  accounts   accounts? @relation(fields: [account_id], references: [id])
+  account_id Int?
 
   @@map("wp_tokens")
 }
