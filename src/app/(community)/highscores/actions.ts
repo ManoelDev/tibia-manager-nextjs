@@ -1,8 +1,11 @@
 import { prisma } from "@/lib/prisma";
-import { convertBigIntsToNumbers } from "@/utils/functions/convertBigIntsToNumbers";
+import { players } from "@prisma/client";
 
 const ITEMS_PER_PAGE = 25
 
+interface Props {
+  categories: 'experience' | 'maglevel' | 'skill_axe' | 'skill_club' | 'skill_dist' | 'skill_fishing' | 'skill_fist' | 'skill_shielding' | 'skill_sword'
+}
 
 function getVocation(value: string): number[] | undefined {
   const vocationMap: { [key: string]: number[] } = {
@@ -12,11 +15,10 @@ function getVocation(value: string): number[] | undefined {
     3: [3, 7],
     4: [4, 8],
   };
-
   return vocationMap[`${value}`];
 }
 
-export async function fetchCharacters({ currentPage, vocation, category }: { vocation: string, currentPage: number, category: string }) {
+export async function fetchCharacters({ currentPage, vocation, category }: { vocation: string, currentPage: number, category: Props['categories'] }) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
@@ -30,7 +32,7 @@ export async function fetchCharacters({ currentPage, vocation, category }: { voc
       }
     })
 
-    const players = await prisma.players.findMany({
+    const players: players[] = await prisma.players.findMany({
       where: {
         AND: [
           vocation ? { vocation: { in: getVocation(vocation) } } : {},
@@ -43,7 +45,7 @@ export async function fetchCharacters({ currentPage, vocation, category }: { voc
       skip: offset,
     })
 
-    return { players: convertBigIntsToNumbers(players), totalPage: Math.ceil(Number(count) / ITEMS_PER_PAGE) }
+    return { players, totalPage: Math.ceil(Number(count) / ITEMS_PER_PAGE) }
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch orders data.');

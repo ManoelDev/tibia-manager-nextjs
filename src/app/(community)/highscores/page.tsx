@@ -3,12 +3,12 @@ import Pagination from "@/components/pagination";
 import TableEmptyState from "@/components/table-empty-state";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getVocation } from "@/utils/functions/getVocations";
 import { fetchCharacters } from "./actions";
 import FilterVocation from "./components/vocations";
 import FilterCategory from "./components/category";
+import { convertBigIntsToNumbers } from "@/utils/functions/convertBigIntsToNumbers";
 
 const columnName = {
   skill_axe: 'Axe Fighting',
@@ -21,9 +21,12 @@ const columnName = {
   skill_shielding: "Shielding",
   skill_sword: "Sword Fighting",
 }
+interface Props {
+  categories: 'experience' | 'maglevel' | 'skill_axe' | 'skill_club' | 'skill_dist' | 'skill_fishing' | 'skill_fist' | 'skill_shielding' | 'skill_sword'
+}
 
 
-export default async function HighScores({ searchParams }: { searchParams?: { vocation?: string; page?: string; category: string } }) {
+export default async function HighScores({ searchParams }: { searchParams?: { vocation?: string; page?: string; category: Props['categories'] } }) {
 
   const currentPage = Number(searchParams?.page) || 1;
   const vocation = searchParams?.vocation || '';
@@ -79,12 +82,11 @@ export default async function HighScores({ searchParams }: { searchParams?: { vo
               <TableHeader className="pointer-events-none">
                 <TableRow>
                   <TableHead className="w-[30px]">Rank</TableHead>
-                  {/* <TableHead className="w-[60px]">Outfit</TableHead> */}
                   <TableHead className="w-full">Name</TableHead>
                   <TableHead className="w-[150px] whitespace-nowrap">Vocation</TableHead>
                   <TableHead className="w-[20px] whitespace-nowrap">Level</TableHead>
                   <TableHead className="whitespace-nowrap text-right">
-                    {columnName[`${category}`]}
+                    {columnName[category]}
                   </TableHead>
                 </TableRow>
               </TableHeader>
@@ -94,14 +96,11 @@ export default async function HighScores({ searchParams }: { searchParams?: { vo
                   return (
                     // <TableRow className="cursor-pointer" key={index} onClick={() => console.log(`/characters/${character.name}`)}>
                     <TableRow className="cursor-pointer" key={index}>
-                      <TableCell className="w-[30px]">
-                        {index + 1}
-                      </TableCell>
-                      {/* <TableCell className="w-[60px]">{character.outfit}</TableCell> */}
+                      <TableCell className="w-[30px]">{index + 1}</TableCell>
                       <TableCell className="">{character.name}</TableCell>
                       <TableCell className="w-[100px] whitespace-nowrap">{getVocation(character.vocation)}</TableCell>
                       <TableCell className="w-[20px]">{character.level}</TableCell>
-                      <TableCell className="whitespace-nowrap text-right">{character[category]}</TableCell>
+                      <TableCell className="whitespace-nowrap text-right">{convertBigIntsToNumbers(character[category])}</TableCell>
                     </TableRow>
                   )
                 })}
