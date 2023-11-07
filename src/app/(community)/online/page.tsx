@@ -4,18 +4,13 @@ import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { prisma } from "@/lib/prisma";
 import { getVocation } from "@/utils/functions/getVocations";
+import { fetchOnline } from "./actions";
+import Pagination from "@/components/pagination";
 
 
-export default async function Online() {
-
-  const player = await prisma.players_online.findMany();
-  const ids = player.map((i) => i.player_id)
-
-  const characters = await prisma.players.findMany({
-    where: {
-      AND: [{ id: { in: ids } },],
-    },
-  });
+export default async function Online({ searchParams }: { searchParams?: { page?: string; } }) {
+  const currentPage = Number(searchParams?.page) || 1;
+  const { players, totalPage } = await fetchOnline({ currentPage })
 
   return (
     <>
@@ -26,7 +21,11 @@ export default async function Online() {
 
         <CardContent className="p-2 space-y-2">
           <div className="flex flex-col rounded-sm border">
-            {characters.length > 0 ? (
+            <div className='flex p-2 items-center justify-between bg-gray-100 text-sm'>
+              <div />
+              <Pagination totalPages={totalPage} />
+            </div>
+            {players.length > 0 ? (
               <Table>
                 <TableHeader className="pointer-events-none">
                   <TableRow>
@@ -37,7 +36,7 @@ export default async function Online() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {characters.map((character) => {
+                  {players.map((character) => {
                     return (
                       <>
                         <TableRow>
