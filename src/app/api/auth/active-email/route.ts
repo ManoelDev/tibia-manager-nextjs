@@ -53,7 +53,7 @@ const create = async (req: Request) => {
       <strong>confirmation key</strong>:<br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br> ${code}<br>
       <br><br>
-      Moreover, please read our rules hints at: https://olders.online/rules
+      Moreover, please read our rules hints at: ${process.env.NEXTAUTH_URL}/rules
       <br><br>
       Kind regards,<br>
       Your ${lua['serverName']} Team<br>

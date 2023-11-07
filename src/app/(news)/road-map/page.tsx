@@ -49,7 +49,7 @@ export default function RoadMap() {
     <>
       <Card>
         <CardHeader className="border-b">
-          <CardTitle>Last News</CardTitle>
+          <CardTitle>Road map</CardTitle>
         </CardHeader>
         <CardContent>
           {news?.posts.map((post) => {

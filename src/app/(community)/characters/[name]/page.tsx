@@ -1,4 +1,5 @@
 import { Typography } from "@/components/Typography";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -7,8 +8,6 @@ import { fUnixToDate } from "@/utils/functions/formatDate";
 import { getVocation } from "@/utils/functions/getVocations";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-
-
 
 export default async function Character({ params }: { params: { name: string } }) {
 
@@ -45,7 +44,13 @@ export default async function Character({ params }: { params: { name: string } }
       },
       guilds: {
         select: {
-          name: true
+          name: true,
+          ownerid: true,
+          guild_ranks: {
+            select: {
+              level: true
+            }
+          }
         }
       },
     }
@@ -61,9 +66,6 @@ export default async function Character({ params }: { params: { name: string } }
           <CardTitle>Characters</CardTitle>
         </CardHeader>
         <CardContent className="p-2 space-y-2">
-
-
-
 
           <div className="flex flex-col rounded-sm border">
             <div className='flex p-2 items-start justify-start  bg-gray-100'>
@@ -99,7 +101,7 @@ export default async function Character({ params }: { params: { name: string } }
 
                 {player.guilds?.name && (<TableRow>
                   <TableCell>Guild Membership:</TableCell>
-                  <TableCell> A Member of the <Link href={`/guilds/${player.guilds?.name}`} className="text-blue-500 hover:underline">{player.guilds?.name}</Link></TableCell>
+                  <TableCell> A {player.id === player.guilds.ownerid ? 'Leader' : 'Member'} of the <Link href={`/guilds/${player.guilds?.name}`} className="text-blue-500 hover:underline">{player.guilds?.name}</Link></TableCell>
                 </TableRow>)}
 
 
@@ -117,7 +119,7 @@ export default async function Character({ params }: { params: { name: string } }
 
                 <TableRow>
                   <TableCell>Account Status:</TableCell>
-                  <TableCell className={player?.accounts.premdays ? 'text-green-600' : ''}>{player?.accounts.premdays ? 'Premium Account' : 'Free Account'}</TableCell>
+                  <TableCell className={player?.accounts.premdays ? 'text-green-600' : ''}>{player?.accounts.premdays ? <Badge variant={'success'}>Premium Account</Badge> : <Badge variant={'destructive'}>Free Account</Badge>}</TableCell>
                 </TableRow>
 
               </TableBody>
@@ -160,7 +162,7 @@ export default async function Character({ params }: { params: { name: string } }
               <TableBody>
                 <TableRow>
                   <TableCell className="w-[140px]">Loyalty Title:</TableCell>
-                  <TableCell>Loyalty Title:</TableCell>
+                  <TableCell>none</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Created:</TableCell>
@@ -171,23 +173,11 @@ export default async function Character({ params }: { params: { name: string } }
             </Table>
           </div>
 
-          <div>
-
-          </div>
-
           <div className="flex flex-col rounded-sm border">
             <div className='flex p-2 items-start justify-start  bg-gray-100 text-sm'>
               Character Deaths
             </div>
             <Table>
-              <TableHeader className="pointer-events-none">
-                <TableRow>
-                  <TableHead className="w-[100px]">Date</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Method</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
-                </TableRow>
-              </TableHeader>
               <TableBody>
                 <TableRow>
                   <TableCell colSpan={4}>
@@ -198,8 +188,6 @@ export default async function Character({ params }: { params: { name: string } }
             </Table>
           </div>
 
-
-
           <div className="flex flex-col rounded-sm border">
             <div className='flex p-2 items-start justify-start  bg-gray-100 text-sm'>
               Character
@@ -207,7 +195,7 @@ export default async function Character({ params }: { params: { name: string } }
             <Table>
               <TableHeader className="pointer-events-none">
                 <TableRow>
-                  <TableHead>Mame</TableHead>
+                  <TableHead>Name</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
@@ -215,8 +203,8 @@ export default async function Character({ params }: { params: { name: string } }
               <TableBody>
                 {player.accounts.players.map((player) => (
                   <TableRow key={player.id}>
-                    <TableCell>{player.name}</TableCell>
-                    <TableCell>{player.level}</TableCell>
+                    <TableCell className="w-full">{player.name}</TableCell>
+                    <TableCell><Badge variant={'success'}>ONLINE</Badge></TableCell>
                     <TableCell className="text-right">
                       <Button variant={'green'}>
                         <Link href={`/characters/${player.name}`}>View</Link>
