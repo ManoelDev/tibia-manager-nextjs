@@ -16,7 +16,7 @@ const FormSchema = z.object({
 
 type ItemFormValues = z.infer<typeof FormSchema>
 
-export default function CreateGuild() {
+export default function CreateGuild({ players }: { players: any[] }) {
   const router = useRouter()
 
   const methods = useForm<ItemFormValues>({ resolver: zodResolver(FormSchema) })
@@ -80,7 +80,7 @@ export default function CreateGuild() {
           <RHFSelect
             name="leader"
             label="Leader"
-            options={[{ value: '7', label: 'Daymop Yogo' }]}
+            options={players}
             LabelOption="label"
             keyValue='value'
           />

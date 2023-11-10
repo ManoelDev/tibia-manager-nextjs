@@ -6,8 +6,8 @@ import { Typography } from "@/components/Typography";
 import TableEmptyState from "@/components/table-empty-state";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
-
+import { useSession } from "next-auth/react";
+import CreateGuild from "../[name]/components/create-guild";
 
 interface Guilds {
   id: number
@@ -22,6 +22,9 @@ interface Guilds {
 
 export default function TableGuild() {
 
+  const { status, data } = useSession()
+
+  const [players, setPlayer] = useState<any[]>([])
 
   const router = useRouter()
 
@@ -53,6 +56,17 @@ export default function TableGuild() {
     }, 500);
   }, [searchTerm]);
 
+  async function getPlayer() {
+    const res = await fetch(`/api/guilds/manager/players/${data?.user.id}`)
+    const body = await res.json()
+    console.log('body', body.player)
+    setPlayer(body.player)
+  }
+
+  useEffect(() => {
+    getPlayer()
+  }, [data])
+
   return (
     <>
       <div className="flex flex-row gap-3">
@@ -64,7 +78,8 @@ export default function TableGuild() {
           value={searchTerm}
           autoFocus
         />
-        {/* {status === 'authenticated' && <ToCreateOrJoinGuild />} */}
+
+        {status === 'authenticated' && <CreateGuild players={players.map(p => ({ value: `${p.id}`, label: `${p.name}` }))} />}
 
       </div>
 

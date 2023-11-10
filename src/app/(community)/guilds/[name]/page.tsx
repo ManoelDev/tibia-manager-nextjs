@@ -9,7 +9,7 @@ import configLua from "@/hooks/configLua";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { getVocation } from "@/utils/functions/getVocations";
-import { CancelInvite, RemoverPlayerToGuild } from "../data";
+import { CancelInvite } from "../data";
 import { IconiFy } from "@/components/Iconify";
 import { Badge } from "@/components/ui/badge";
 import InvitePlayerTo from "./components/invite-player-guild";
@@ -64,7 +64,7 @@ export default async function GuildData({ params }: { params: { name: string } }
 
   if (!guild) redirect('/guilds/' + params['name'])
 
-  const { manager, level, player_id } = await ToCreateOrJoinGuild(guild.id)
+  const { manager, level, player_id, isLogged } = await ToCreateOrJoinGuild(guild.id)
 
   return (
     <Suspense key={guild.guild_ranks.length + guild.guild_membership.length}>
@@ -104,7 +104,7 @@ export default async function GuildData({ params }: { params: { name: string } }
             </div>
 
             <Suspense key={guild.guild_ranks.length}>
-              {manager ? <ManagerPanal guild_id={guild.id} isOwner={manager === 'owner'} accessLevel={level} /> : player_id && <CreateGuild />}
+              {manager && <ManagerPanal guild_id={guild.id} isOwner={manager === 'owner'} accessLevel={level} />}
             </Suspense>
           </div>
 
@@ -150,7 +150,7 @@ export default async function GuildData({ params }: { params: { name: string } }
                         <TableCell className="text-center w-[90px]"><Badge variant={"success"} className="uppercase" >Online</Badge></TableCell>
                         {/* <TableCell className="text-center w-[90px]">{member.guild_ranks.level !== 1 && (<RemovePlayer guild_id={member.guild_id} player_id={member.player_id} />)}</TableCell> */}
                         <TableCell className="text-center w-[90px]">
-                          {player_id && <TableActions row={member} ranks={guild.guild_ranks} accessLevel={level ?? 0} disabled={guild.ownerid === member.player_id || level === 1 && member.player_id !== player_id} />}
+                          {isLogged && <TableActions row={member} ranks={guild.guild_ranks} accessLevel={level ?? 0} disabled={guild.ownerid === member.player_id || level === 1 && member.player_id !== player_id} />}
                         </TableCell>
                       </TableRow>
                     )
