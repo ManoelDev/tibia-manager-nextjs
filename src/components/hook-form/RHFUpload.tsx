@@ -3,6 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import Upload from '../upload/Upload';
 import { UploadProps } from '../upload/types';
 import UploadShopImage from '../upload/UploadShop';
+import UploadGuildImage from '../upload/UploadGuild';
 
 interface Props extends Omit<UploadProps, 'file'> {
   name: string
@@ -18,6 +19,28 @@ export function RHFUploadShopImage({ name, ...other }: Props) {
       render={({ field, fieldState: { error } }) => (
         <div>
           <UploadShopImage
+            accept={{ 'image/*': [] }}
+            error={!!error}
+            file={field.value}
+            {...other}
+          />
+
+          {!!error && (<div className='px-2 text-center text-red-500'>{error.message}</div>)}
+        </div>
+      )}
+    />
+  );
+}
+
+export function RHFUploadGuildImage({ name, ...other }: Props) {
+  const { control } = useFormContext();
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState: { error } }) => (
+        <div>
+          <UploadGuildImage
             accept={{ 'image/*': [] }}
             error={!!error}
             file={field.value}

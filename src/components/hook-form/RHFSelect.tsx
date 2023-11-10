@@ -34,7 +34,7 @@ export default function RHFSelect<T>({ name, options, label, defaultValue, place
             {...other}
           >
             <SelectTrigger id={inputId}>
-              <SelectValue placeholder={placeholder ? `` : `Select ${name}...`} id='inputId' className={placeholder ? 'opacity-20 [span]:text-gray-200' : ''} />
+              <SelectValue placeholder={placeholder ? placeholder : `Select ${name}...`} id='inputId' className={placeholder ? 'opacity-20 [span]:text-gray-200' : ''} />
             </SelectTrigger>
             <SelectContent className='overflow-auto max-h-[206px]'>
               {options?.map((item, index) => <SelectItem key={index} value={item[keyValue] as string}>{item[LabelOption] as string}</SelectItem>)}

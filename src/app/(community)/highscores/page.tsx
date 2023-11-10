@@ -9,6 +9,7 @@ import { fetchCharacters } from "./actions";
 import FilterVocation from "./components/vocations";
 import FilterCategory from "./components/category";
 import { convertBigIntsToNumbers } from "@/utils/functions/convertBigIntsToNumbers";
+import Link from "next/link";
 
 const columnName = {
   skill_axe: 'Axe Fighting',
@@ -95,9 +96,13 @@ export default async function HighScores({ searchParams }: { searchParams?: { vo
                 {players.map((character, index) => {
                   return (
                     // <TableRow className="cursor-pointer" key={index} onClick={() => console.log(`/characters/${character.name}`)}>
-                    <TableRow className="cursor-pointer" key={index}>
+                    <TableRow key={index}>
                       <TableCell className="w-[30px]">{index + 1}</TableCell>
-                      <TableCell className="">{character.name}</TableCell>
+                      <TableCell className="">
+                        <Link href={`/characters/${character.name}}`} className="text-blue-500 hover:underline">
+                          {character.name}
+                        </Link>
+                      </TableCell>
                       <TableCell className="w-[100px] whitespace-nowrap">{getVocation(character.vocation)}</TableCell>
                       <TableCell className="w-[20px]">{character.level}</TableCell>
                       <TableCell className="whitespace-nowrap text-right">{convertBigIntsToNumbers(character[category])}</TableCell>

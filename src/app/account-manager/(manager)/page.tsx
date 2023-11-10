@@ -26,11 +26,22 @@ import { convertBigIntsToNumbers } from '@/utils/functions/convertBigIntsToNumbe
 import ActiveEmailRequest from "./components/acitver-email-request";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
+import { IconiFy } from "@/components/Iconify";
+import JoinGuild from "./components/join-guild";
 
 async function getAccount(id: number) {
   const account = await prisma.accounts.findUnique({
     where: { id: Number(id) }, include: {
-      players: true,
+      players: {
+        include: {
+          guild_invites: {
+            include: {
+              players: true,
+              guilds: true
+            }
+          }
+        }
+      },
       account_bans: true,
       profile: true,
       address: true,
@@ -101,6 +112,8 @@ export default async function Dashboard({ params, searchParams }: Params) {
   // }
 
   const InitialTab = searchParams?.tab ?? 'status'
+
+  console.log('acc.players.filter(player => player.guild_invites.length)', acc.players.filter(player => player.guild_invites.length))
   return (
     <>
       <Card>
@@ -160,6 +173,22 @@ export default async function Dashboard({ params, searchParams }: Params) {
             )}
           </div>
         </div>
+
+        {acc.players.filter(player => player.guild_invites.length).length ? (
+          <div className="p-2 pt-0 rounded-sm">
+            <Alert className="rounded-sm" variant={'info'}>
+              <IconiFy icon={'ph:info'} />
+              <AlertTitle>Guild Invitation</AlertTitle>
+              <AlertDescription className="flex flex-row justify-between gap-2">
+                <p>Hello <strong>{acc.players.filter(player => player.guild_invites.length)[0].guild_invites[0].players.name}</strong>, you have been invited to join the <strong>{acc.players.filter(player => player.guild_invites.length)[0].guild_invites[0].guilds.name} </strong>guild.</p>
+                <JoinGuild
+                  guild_id={acc.players.filter(player => player.guild_invites.length)[0].guild_invites[0].guilds.id}
+                  player_id={acc.players.filter(player => player.guild_invites.length)[0].guild_invites[0].player_id}
+                />
+              </AlertDescription>
+            </Alert>
+          </div>
+        ) : (<></>)}
 
 
         <Tabs defaultValue={InitialTab} className="p-2 pt-0 rounded-sm" activationMode="manual">

@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer';
+import configLua from "@/hooks/configLua";
+const lua = configLua()
 
 export interface SendMailParams<T> {
   to: string;
@@ -45,7 +47,7 @@ export class MailProvider implements SendMail {
 
 
     const message = await transporter.sendMail({
-      from: `Tibia Manager <${process.env.MAIL_CONTACT}>`,
+      from: `${lua['serverName']} <${process.env.MAIL_CONTACT}>`,
       to,
       text,
       subject,

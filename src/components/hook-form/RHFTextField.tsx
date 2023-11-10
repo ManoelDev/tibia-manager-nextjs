@@ -22,8 +22,8 @@ export default function RHFTextField({ name, label, ...other }: Props) {
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <div className="grid gap-2">
-          {label && <Label htmlFor={inputId}>{label}</Label>}
+        <div className="flex flex-col gap-2 w-full">
+          {label && <Label htmlFor={inputId} className='whitespace-nowrap'>{label}</Label>}
           <Input
             {...other}
             {...field}

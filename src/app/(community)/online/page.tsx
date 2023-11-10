@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { getVocation } from "@/utils/functions/getVocations";
 import { fetchOnline } from "./actions";
 import Pagination from "@/components/pagination";
+import Link from "next/link";
 
 
 export default async function Online({ searchParams }: { searchParams?: { page?: string; } }) {
@@ -29,7 +30,7 @@ export default async function Online({ searchParams }: { searchParams?: { page?:
               <Table>
                 <TableHeader className="pointer-events-none">
                   <TableRow>
-                    <TableHead className="w-[80px]">Outfit</TableHead>
+                    {/* <TableHead className="w-[80px]">Outfit</TableHead> */}
                     <TableHead className="w-full">Name</TableHead>
                     <TableHead className="w-[100px]">Vocation</TableHead>
                     <TableHead className="w-[20px]">Level</TableHead>
@@ -40,8 +41,8 @@ export default async function Online({ searchParams }: { searchParams?: { page?:
                     return (
                       <>
                         <TableRow>
-                          <TableCell>A</TableCell>
-                          <TableCell>{character.name}</TableCell>
+                          {/* <TableCell>A</TableCell> */}
+                          <TableCell><Link href={`/characters/${character.name}`} className="text-blue-500 hover:underline">{character.name}</Link></TableCell>
                           <TableCell>{getVocation(character.vocation)}</TableCell>
                           <TableCell>{character.level}</TableCell>
                         </TableRow>

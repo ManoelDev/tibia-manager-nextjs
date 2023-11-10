@@ -7,9 +7,7 @@ type Params = {
   name: string
 }
 
-
 export async function GET(request: Request, { params }: { params: Params }) {
-
   const characters = await prisma.guilds.findMany({
     where: {
       AND: [
@@ -17,6 +15,5 @@ export async function GET(request: Request, { params }: { params: Params }) {
       ],
     },
   });
-
   return NextResponse.json(convertBigIntsToNumbers(characters));
 }

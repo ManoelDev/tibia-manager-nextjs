@@ -21,13 +21,14 @@ export default function RHFTextarea({ name, label, ...other }: Props) {
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <div className="grid gap-2">
+        <div className="w-full grid gap-2">
           {label && <Label htmlFor={inputId}>{label}</Label>}
           <Textarea
             // {...other}
             {...field}
             value={field.value ?? ''}
             id={inputId}
+            placeholder={other.placeholder}
           />
         </div>
       )}
