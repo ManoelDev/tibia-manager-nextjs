@@ -150,7 +150,7 @@ export default async function GuildData({ params }: { params: { name: string } }
                         <TableCell className="text-center w-[90px]"><Badge variant={"success"} className="uppercase" >Online</Badge></TableCell>
                         {/* <TableCell className="text-center w-[90px]">{member.guild_ranks.level !== 1 && (<RemovePlayer guild_id={member.guild_id} player_id={member.player_id} />)}</TableCell> */}
                         <TableCell className="text-center w-[90px]">
-                          {isLogged && <TableActions row={member} ranks={guild.guild_ranks} accessLevel={level ?? 0} disabled={guild.ownerid === member.player_id || level === 1 && member.player_id !== player_id} />}
+                          {level && <TableActions row={member} ranks={guild.guild_ranks} accessLevel={level ?? 0} disabled={guild.ownerid === member.player_id || level === 1 && member.player_id !== player_id} />}
                         </TableCell>
                       </TableRow>
                     )

@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { convertBigIntsToNumbers } from "@/utils/functions/convertBigIntsToNumbers";
+import dayjs from "dayjs";
 
 type Params = { id: string, player_id: number }
 
@@ -50,11 +51,11 @@ const InvitePlayer = async (request: Request, { params }: { params: Params }) =>
     const validInvite = await prisma.guild_invites.findFirst({ where: { player_id: +params.player_id } })
     if (validInvite) return NextResponse.json({ message: 'Player as invited.' }, { status: 400 });
 
-    const data = await prisma.guild_membership.create({
+    const data = await prisma.guild_invites.create({
       data: {
         guild_id: +params.id,
         player_id: +params.player_id,
-        rank_id: +rank_id
+        date: dayjs().unix(),
       },
       select: { guilds: { select: { name: true } } }
     })

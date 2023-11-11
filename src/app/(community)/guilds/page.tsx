@@ -3,9 +3,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 import TableGuild from "./components/tableGuil";
-import CreateGuild from "./[name]/components/create-guild";
-import { prisma } from "@/lib/prisma";
-import { useSession } from "next-auth/react";
+
 
 
 export default async function Guilds() {

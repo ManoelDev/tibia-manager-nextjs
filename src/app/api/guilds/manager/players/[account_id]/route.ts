@@ -1,7 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { convertBigIntsToNumbers } from "@/utils/functions/convertBigIntsToNumbers";
-import { gte } from "lodash";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
@@ -23,7 +22,7 @@ const ListPlayer = async (request: Request, { params }: { params: Params }) => {
       }
     })
 
-    return NextResponse.json({ player: convertBigIntsToNumbers(account?.players) });
+    return NextResponse.json({ player: account?.players ? convertBigIntsToNumbers(account?.players) : [] });
   } catch (error) {
     console.log('error on create guild', error)
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 });

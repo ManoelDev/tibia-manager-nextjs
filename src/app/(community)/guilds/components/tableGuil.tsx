@@ -56,15 +56,15 @@ export default function TableGuild() {
     }, 500);
   }, [searchTerm]);
 
-  async function getPlayer() {
-    const res = await fetch(`/api/guilds/manager/players/${data?.user.id}`)
+  async function getPlayer(id: number) {
+    const res = await fetch(`/api/guilds/manager/players/${id}`)
     const body = await res.json()
-    console.log('body', body.player)
     setPlayer(body.player)
   }
 
   useEffect(() => {
-    getPlayer()
+    if (data?.user) getPlayer(+data.user.id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
   return (
@@ -79,7 +79,7 @@ export default function TableGuild() {
           autoFocus
         />
 
-        {status === 'authenticated' && <CreateGuild players={players.map(p => ({ value: `${p.id}`, label: `${p.name}` }))} />}
+        {status === 'authenticated' && players.length > 0 && <CreateGuild players={players.map(p => ({ value: `${p.id}`, label: `${p.name}` }))} />}
 
       </div>
 

@@ -50,7 +50,7 @@ export default function Characters({ guild_id, rank_id }: { guild_id: number, ra
     if (res.ok) {
       toast({
         title: "Success!",
-        description: (<div>Update player rank.</div>),
+        description: (<div>Invited player rank.</div>),
         variant: 'success'
       })
       router.refresh()
