@@ -14,6 +14,13 @@ export async function GET(request: Request, { params }: { params: Params }) {
         { name: { contains: decodeURIComponent(params['name']) } },
       ],
     },
+    include: {
+      players: {
+        select: {
+          name: true
+        }
+      }
+    }
   });
   return NextResponse.json(convertBigIntsToNumbers(characters));
 }

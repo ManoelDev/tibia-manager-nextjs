@@ -45,8 +45,8 @@ export default function ManagerGuild({ guild_id, defaultValues }: { guild_id: nu
 
       const data = new FormData()
       data.set('banner', formData.banner)
-      data.set('motd', formData.motd)
-      data.set('description', formData.description)
+      data.set('motd', formData.motd ?? '')
+      data.set('description', formData.description ?? '')
       await updateGuild(guild_id, data)
       toast({
         title: "Success!",

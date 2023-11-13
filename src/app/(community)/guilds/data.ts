@@ -75,7 +75,7 @@ export async function updateGuild(id: number, formData: FormData) {
     data: {
       logo_name,
       description,
-      motd
+      motd: ''
     }
   })
   revalidatePath(`/guilds/${guild.name}`);

@@ -59,6 +59,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Character already exists" }, { status: 400 });
     }
 
+    const findInitialPlayer = await prisma.players.findFirst({ where: { name: 'Rook Sample' } })
+    if (!findInitialPlayer) return NextResponse.json({ message: 'Initial Player not exist.' }, { status: 500 });
+
+    const { id, account_id, ...restInitialPlayer } = findInitialPlayer || { id: undefined, account_id: undefined };
+
     await prisma.accounts.create({
       data: {
         name: data.name,
@@ -68,8 +73,7 @@ export async function POST(req: Request) {
         created: dayjs().unix(),
         players: {
           create: {
-            ...[samplePlayer[0]].map(({ id, account_id, ...resto }) => resto)[0],
-            ...[positions.filter((p) => p.name === 'Rookgaard')[0]].map(({ id, name, world_id, ...resto }) => resto)[0],
+            ...restInitialPlayer,
             name: data.characterName,
             sex: data.gender === 'female' ? 0 : 1,
             world_id: +lua['worldId'],

@@ -42,21 +42,21 @@ const List = async (req: Request) => {
           : {}
       ]
     },
-    include: {
-      Categories: {
-        where: {
-          AND: [
-            queryParam.search
-              ? {
-                OR: [
-                  { name: { contains: queryParam.search } }
-                ]
-              }
-              : {}
-          ]
-        }
-      }
-    },
+    // include: {
+    //   Categories: {
+    //     where: {
+    //       AND: [
+    //         queryParam.search
+    //           ? {
+    //             OR: [
+    //               { name: { contains: queryParam.search } }
+    //             ]
+    //           }
+    //           : undefined
+    //       ]
+    //     }
+    //   }
+    // },
     skip,
     take: postsPerPage,
   });

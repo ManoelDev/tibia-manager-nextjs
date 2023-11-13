@@ -123,7 +123,6 @@ function Actions({ player }: { player: players }) {
   const { handleSubmit, reset, formState: { isSubmitting } } = methods
 
   async function HandleEditPlayer(body: formValues) {
-    console.log('Chamou editar')
     await fetch(`/api/accounts/players/${player.id}`, {
       method: "PATCH",
       headers: {

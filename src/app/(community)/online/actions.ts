@@ -21,6 +21,7 @@ export async function fetchOnline({ currentPage }: { currentPage: number }) {
       },
       take: ITEMS_PER_PAGE,
       skip: offset,
+      orderBy: { name: 'asc' }
     })
 
     return { players, totalPage: Math.ceil(Number(count) / ITEMS_PER_PAGE) }

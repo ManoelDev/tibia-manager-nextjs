@@ -54,11 +54,15 @@ const UpdateGuild = async (request: Request) => {
 const DeleteGuild = async (request: Request, { params }: { params: Params }) => {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    if (!session) return NextResponse.json({ message: 'Unauthorized1' }, { status: 401 });
 
-    const getGuild = await prisma.guilds.findUnique({ where: { id: +params.id } })
+    const findGuild = await prisma.guilds.findUnique({ where: { id: +params.id } })
+    if (!findGuild) return NextResponse.json({ message: 'Unauthorized2' }, { status: 401 });
 
-    if (getGuild?.ownerid !== +params.id) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    const findPlayer = await prisma.players.findUnique({ where: { id: findGuild.ownerid } })
+    if (!findPlayer) return NextResponse.json({ message: 'Unauthorized3' }, { status: 401 });
+
+    if (+session.user.id !== findPlayer.account_id) return NextResponse.json({ message: 'Unauthorized4' }, { status: 401 });
 
     await prisma.guilds.delete({ where: { id: +params.id } })
 

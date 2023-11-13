@@ -16,7 +16,6 @@ import InvitePlayerTo from "./components/invite-player-guild";
 import { ManagerPanal } from "./components/manager-painel";
 import { Suspense } from "react";
 import ToCreateOrJoinGuild from "./toCreateOrJoinGuild";
-import CreateGuild from "./components/create-guild";
 import TableActions from "./components/actionsTable";
 
 const lua = configLua()
@@ -32,6 +31,7 @@ export default async function GuildData({ params }: { params: { name: string } }
     include: {
       players: {
         select: {
+          id: true,
           name: true
         }
       },
@@ -62,9 +62,20 @@ export default async function GuildData({ params }: { params: { name: string } }
     },
   });
 
+  const ids = guild?.guild_membership.map((i) => i.player_id)
+
   if (!guild) redirect('/guilds/' + params['name'])
 
   const { manager, level, player_id, isLogged } = await ToCreateOrJoinGuild(guild.id)
+
+  const playersOnline = await prisma.players.findMany({
+    where: { AND: [{ id: { in: ids } },], },
+    select: { id: true }
+  })
+
+  function isAnyPlayerOnline(players_id: number) {
+    return playersOnline.some(({ id }) => id === players_id);
+  }
 
   return (
     <Suspense key={guild.guild_ranks.length + guild.guild_membership.length}>
@@ -147,7 +158,10 @@ export default async function GuildData({ params }: { params: { name: string } }
                         </TableCell>
                         <TableCell className="whitespace-nowrap">{getVocation(member.players.vocation)}</TableCell>
                         <TableCell >{member.players.level}</TableCell>
-                        <TableCell className="text-center w-[90px]"><Badge variant={"success"} className="uppercase" >Online</Badge></TableCell>
+                        <TableCell className="text-center w-[90px]">
+                          {isAnyPlayerOnline(member.players.id) ? (<Badge variant={"success"} className="uppercase" >Online</Badge>) : (<Badge variant={"destructive"} className="uppercase" >offline</Badge>)
+                          }
+                        </TableCell>
                         {/* <TableCell className="text-center w-[90px]">{member.guild_ranks.level !== 1 && (<RemovePlayer guild_id={member.guild_id} player_id={member.player_id} />)}</TableCell> */}
                         <TableCell className="text-center w-[90px]">
                           {level && <TableActions row={member} ranks={guild.guild_ranks} accessLevel={level ?? 0} disabled={guild.ownerid === member.player_id || level === 1 && member.player_id !== player_id} />}

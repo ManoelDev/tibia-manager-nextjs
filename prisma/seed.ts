@@ -56,8 +56,8 @@ async function seed() {
 		skipDuplicates: true,
 	});
 
-	await prisma.players.createMany({ data: samplePlayer, skipDuplicates: true });
-	await prisma.towns.createMany({ data: positions, skipDuplicates: true });
+	// await prisma.players.createMany({ data: samplePlayer, skipDuplicates: true });
+	// await prisma.towns.createMany({ data: positions, skipDuplicates: true });
 
 }
 

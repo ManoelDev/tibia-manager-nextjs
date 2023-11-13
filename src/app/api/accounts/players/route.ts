@@ -2,9 +2,6 @@
 import { ZodError, z } from 'zod';
 import dayjs from "dayjs";
 
-
-import configLua from "@/hooks/configLua";
-import { positions, samplePlayer } from '../../../../../prisma/seed';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -21,7 +18,6 @@ const CreatePlayersSchema = z
 
 const handleCreate = async (req: Request) => {
   try {
-    const lua = configLua()
 
     const { name, sex, world_id } = CreatePlayersSchema.parse(await req.json())
     const session = await getServerSession(authOptions);
@@ -31,15 +27,22 @@ const handleCreate = async (req: Request) => {
     const findPlayers = await prisma.accounts.findFirst({ where: { name } })
     if (findPlayers) return NextResponse.json({ message: 'Player name already exists' }, { status: 400 });
 
+    const findInitialPlayer = await prisma.players.findFirst({ where: { name: 'Rook Sample' } })
+    if (!findInitialPlayer) return NextResponse.json({ message: 'Initial Player not exist.' }, { status: 500 });
+
+    const { id, account_id, ...restInitialPlayer } = findInitialPlayer || { id: undefined, account_id: undefined };
+
+
     await prisma.players.create({
       data: {
-        ...[samplePlayer[0]].map(({ id, account_id, ...resto }) => resto)[0],
-        ...[positions.filter((p) => p.name === 'Rookgaard')[0]].map(({ id, name, world_id, ...resto }) => resto)[0],
+        ...restInitialPlayer,
         account_id: Number(session?.user?.id),
         name,
         sex,
-        world_id: world_id ?? +lua['worldId'],
+        world_id: world_id ?? 1,
         create_date: dayjs().unix(),
+        conditions: Buffer.alloc(1024),
+        comment: ''
       }
     })
 
@@ -51,7 +54,5 @@ const handleCreate = async (req: Request) => {
     return NextResponse.json({ err }, { status: 500 });
   }
 }
-
-
 
 export { handleCreate as POST };

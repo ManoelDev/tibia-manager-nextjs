@@ -4,6 +4,10 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import dayjs from 'dayjs';
+import { symmetricDecrypt } from "@/utils/crypto";
+import { ErrorCode } from "@/utils/ErrorCode";
+
+import { authenticator } from 'otplib';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma as any),
@@ -12,6 +16,7 @@ export const authOptions: NextAuthOptions = {
     verifyRequest: "/account-manager/verify-request",
     newUser: "/account-manager/register",
   },
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
     maxAge: 10 * 60, // 10 min
@@ -22,12 +27,19 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        totpCode: { label: 'Two-factor Code', type: 'input', placeholder: 'Code from authenticator app' },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) return null
         const user = await prisma.accounts.findFirst({ where: { email: credentials.email } });
         if (!user || !(comparePassword(credentials.password, user.password!))) return null;
 
+        if (user.secret_status) {
+          if (!credentials.totpCode) throw new Error(ErrorCode.SecondFactorRequired);
+          if (!user.secret) throw new Error(ErrorCode.InternalServerError);
+          const isValidToken = authenticator.check(credentials.totpCode, user.secret);
+          if (!isValidToken) throw new Error(ErrorCode.IncorrectTwoFactorCode);
+        }
 
         await prisma.accounts.update({ where: { id: Number(user.id) }, data: { web_lastlogin: dayjs().unix() } })
 

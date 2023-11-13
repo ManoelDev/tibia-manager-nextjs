@@ -63,7 +63,7 @@ export default function Characters() {
                   <TableRow>
                     <TableHead className="w-[60px]">Outfit</TableHead>
                     <TableHead className="">Name</TableHead>
-                    <TableHead className="w-[100px] text-center">Vocation</TableHead>
+                    <TableHead className="w-[100px]">Vocation</TableHead>
                     <TableHead className="w-[20px]">Level</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -74,7 +74,7 @@ export default function Characters() {
                         <TableRow key={player.id.toString()} onClick={() => router.push(`/characters/${player.name}`)} className="cursor-pointer">
                           <TableCell>{player.id.toString()}</TableCell>
                           <TableCell>{player.name}</TableCell>
-                          <TableCell className="text-center">{getVocation(player.vocation)}</TableCell>
+                          <TableCell className="whitespace-nowrap">{getVocation(player.vocation)}</TableCell>
                           <TableCell className="text-center">{player.level}</TableCell>
                         </TableRow>
                       )

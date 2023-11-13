@@ -28,6 +28,7 @@ import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { IconiFy } from "@/components/Iconify";
 import JoinGuild from "./components/join-guild";
+import TwoFactSettings from "@/components/TwoFactSettings";
 
 async function getAccount(id: number) {
   const account = await prisma.accounts.findUnique({
@@ -113,7 +114,6 @@ export default async function Dashboard({ params, searchParams }: Params) {
 
   const InitialTab = searchParams?.tab ?? 'status'
 
-  console.log('acc.players.filter(player => player.guild_invites.length)', acc.players.filter(player => player.guild_invites.length))
   return (
     <>
       <Card>
@@ -467,13 +467,11 @@ export default async function Dashboard({ params, searchParams }: Params) {
               <div>
                 <Typography variant={'body1'} className="text-sm" component={'p'}>Two-Factor authentication offers you an additional layer of security to help prevent unauthorised access to your Tibia account. In Tibia you can select one of these two methods:</Typography>
                 <ul className="list-disc pl-8 py-2">
-                  <li>Two-Factor Authenticator App</li>
-                  <li>Two-Factor Email Code Authentication</li>
+                  <li> <div className="flex flex-row justify-between"> Two-Factor Authenticator App <TwoFactSettings user={acc} /></div></li>
+                  {/* <li>Two-Factor Email Code Authentication</li> */}
                 </ul>
               </div>
-              <Button size={'sm'} className="whitespace-nowrap" asChild>
-                <Link href={'/account-manager/payments-history'}>Request</Link>
-              </Button>
+
             </div>
 
             <div className="flex justify-end gap-2">

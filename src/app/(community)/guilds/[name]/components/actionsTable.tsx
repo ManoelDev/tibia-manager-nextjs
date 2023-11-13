@@ -51,7 +51,6 @@ export default function TableActions({ row, ranks, disabled, accessLevel }: { ro
     })
   }
 
-  console.log('accessLevel', accessLevel)
   return (<>
     <DropdownMenu>
       <DropdownMenuTrigger disabled={disabled}>
