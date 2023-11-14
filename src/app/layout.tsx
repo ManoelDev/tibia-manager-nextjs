@@ -21,8 +21,11 @@ import { StatusServer } from '@/utils/statusServer'
 import { Typography } from '@/components/Typography'
 import { prisma } from '@/lib/prisma'
 import { Badge } from '@/components/ui/badge'
+import { IconiFy } from '@/components/Iconify';
 
 const lua = configLua()
+
+export const revalidate = 0
 
 export const metadata: Metadata = {
   title: {
@@ -75,8 +78,9 @@ export default async function RootLayout({
             <ScrollArea className="h-screen w-full px-2">
               <div className='sm:grid sm:grid-cols-12 sm:space-x-2 sm:space-y-0 space-y-2 grid-cols-1 mx-auto max-w-screen-xl mt-10 hidden'>
                 <div className='col-span-2 space-y-2' >
-                  <Image src={'/testlogo2.png'} priority width={212} height={200} className='w-auto h-auto' alt='Logo' />
-
+                  <Link href="/">
+                    <Image src={'/testlogo2.png'} priority width={212} height={200} className='w-auto h-auto' alt='Logo' />
+                  </Link>
                 </div>
                 <div className='col-span-8 space-y-2'>
                 </div>
@@ -115,9 +119,28 @@ export default async function RootLayout({
                 <div className='col-span-8 space-y-2 pb-8'>
                   <div className='flex flex-col p-1 gap-2 bg-background/10 shadow rounded-md backdrop-blur-[6px]'>
                     <div className='flex items-center justify-between bg-gray-50 rounded-sm p-1'>
-                      <Button variant={'link'} size={'sm'}>
-                        Join Discord
-                      </Button>
+
+
+                      <div className='flex flex-row gap-4'>
+                        <Link href={'/download'} className='flex flex-row items-center text-xs'>
+                          <IconiFy icon={'line-md:download-loop'} /> Download
+                        </Link>
+                        <Link href={process.env.DISCORD_URL ?? '#'} className='flex flex-row items-center text-xs'>
+                          <IconiFy icon={'line-md:discord'} className='w-6' /> Join Discord
+                        </Link>
+                        <Link href={process.env.YOUTUBE_URL ?? ' #'} className='flex flex-row items-center text-xs '>
+                          <IconiFy icon={'line-md:youtube'} className='w-6' /> YouTube
+                        </Link>
+                        <Link href={process.env.INSTAGRAM_URL ?? '#'} className='flex flex-row items-center text-xs '>
+                          <IconiFy icon={'line-md:instagram'} className='w-6' /> Instagram
+                        </Link>
+                        <Link href={process.env.FACEBOOK_URL ?? '#'} className='flex flex-row items-center text-xs '>
+                          <IconiFy icon={'line-md:facebook'} className='w-6' /> facebook
+                        </Link>
+                        <Link href={process.env.WHATSAPP_URL ?? '#'} className='flex flex-row items-center text-xs '>
+                          <IconiFy icon={'ic:twotone-whatsapp'} className='w-6' /> Whatsapp
+                        </Link>
+                      </div>
 
                       <div className='flex items-center space-x-1 p-1 px-2'>
                         {statusServer.status
