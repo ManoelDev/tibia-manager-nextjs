@@ -35,6 +35,11 @@ export default async function HighScores({ searchParams }: { searchParams?: { vo
 
   const { players, totalPage } = await fetchCharacters({ currentPage, vocation, category });
 
+
+  const itemsPerPage = 25;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+
+
   return (
     <>
       <Card>
@@ -93,13 +98,13 @@ export default async function HighScores({ searchParams }: { searchParams?: { vo
               </TableHeader>
               <TableBody>
 
-                {players.map((character, index) => {
+                {players.map((character, index, array) => {
                   return (
                     // <TableRow className="cursor-pointer" key={index} onClick={() => console.log(`/characters/${character.name}`)}>
-                    <TableRow key={index}>
-                      <TableCell className="w-[30px]">{index + 1}</TableCell>
+                    <TableRow key={startIndex}>
+                      <TableCell className="w-[30px]">{startIndex + index + 1}</TableCell>
                       <TableCell className="">
-                        <Link href={`/characters/${character.name}}`} className="text-blue-500 hover:underline">
+                        <Link href={`/characters/${character.name}`} className="text-blue-500 hover:underline">
                           {character.name}
                         </Link>
                       </TableCell>

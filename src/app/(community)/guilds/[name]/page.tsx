@@ -17,15 +17,23 @@ import { ManagerPanal } from "./components/manager-painel";
 import { Suspense } from "react";
 import ToCreateOrJoinGuild from "./toCreateOrJoinGuild";
 import TableActions from "./components/actionsTable";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 const lua = configLua()
 
 export default async function GuildData({ params }: { params: { name: string } }) {
 
+  const session = await getServerSession(authOptions)
+
+  const sessionPlayer = session?.user.id ? await prisma.players.findMany({ where: { account_id: Number(session?.user.id) }, select: { id: true } }) : []
+
+  const sessionPlayerId = sessionPlayer.map((player) => player.id);
+
   const guild = await prisma.guilds.findFirst({
     where: {
       AND: [
-        { name: { contains: decodeURIComponent(params['name']) } },
+        { name: decodeURIComponent(params['name']) },
       ],
     },
     include: {
@@ -81,11 +89,11 @@ export default async function GuildData({ params }: { params: { name: string } }
     <Suspense key={guild.guild_ranks.length + guild.guild_membership.length}>
       <Card>
         <div className="flex flex-row justify-between items-center p-4">
-          <div className="hidden sm:flex"><Image src={`/guilds/${guild.logo_name}`} alt=" logo name " width={64} height={64} /></div>
+          <div className="hidden sm:flex"><img src={`/guilds/${guild.logo_name}`} alt=" logo name " width={64} height={64} /></div>
           <div className="flex flex-col justify-center">
             <Typography variant="h3" className="text-2xl font-bold">{guild.name}</Typography>
           </div>
-          <div><Image src={`/guilds/${guild.logo_name}`} alt=" logo name " width={64} height={64} /></div>
+          <div><img src={`/guilds/${guild.logo_name}`} alt=" logo name " width={64} height={64} /></div>
         </div>
 
         <CardContent className="p-2 space-y-2">
@@ -189,6 +197,7 @@ export default async function GuildData({ params }: { params: { name: string } }
             <Table>
               <TableBody>
                 {guild.guild_invites.map((invite, index) => {
+                  const showBtnLeave = sessionPlayerId.includes(invite.player_id)
                   return (
                     <TableRow key={index}>
                       <TableCell className="w-full">
@@ -197,7 +206,8 @@ export default async function GuildData({ params }: { params: { name: string } }
                         </Link>
                       </TableCell>
                       <TableCell>
-                        <CancelInvitation guild_id={invite.guild_id} player_id={invite.player_id} />
+                        {session?.user.id && showBtnLeave && !manager && <CancelInvitation guild_id={invite.guild_id} player_id={invite.player_id} />}
+                        {manager && <CancelInvitation guild_id={invite.guild_id} player_id={invite.player_id} />}
                       </TableCell>
                     </TableRow>
                   )

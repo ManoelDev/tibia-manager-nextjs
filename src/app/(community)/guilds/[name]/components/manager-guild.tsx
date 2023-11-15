@@ -91,6 +91,7 @@ export default function ManagerGuild({ guild_id, defaultValues }: { guild_id: nu
               accept={{ 'image': ['.jpg', '.bmp', '.png', '.gif'] }}
               maxSize={80000}
               onDrop={handleDrop}
+              disabled
             />
             <RHFTextarea name="description" placeholder="Guild Description" />
           </div>

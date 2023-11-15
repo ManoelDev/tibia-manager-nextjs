@@ -59,6 +59,7 @@ export async function updateGuild(id: number, formData: FormData) {
     motd: formData.get('motd'),
   });
   const file: File | null = formData.get('banner') as unknown as File
+
   let logo_name
   if (typeof file !== 'object') {
     logo_name = undefined
@@ -75,7 +76,7 @@ export async function updateGuild(id: number, formData: FormData) {
     data: {
       logo_name,
       description,
-      motd: ''
+      motd: motd ?? ''
     }
   })
   revalidatePath(`/guilds/${guild.name}`);

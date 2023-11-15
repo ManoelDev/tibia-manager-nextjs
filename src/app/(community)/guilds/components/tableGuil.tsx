@@ -21,11 +21,8 @@ interface Guilds {
 }
 
 export default function TableGuild() {
-
   const { status, data } = useSession()
-
   const [players, setPlayer] = useState<any[]>([])
-
   const router = useRouter()
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -95,24 +92,22 @@ export default function TableGuild() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {
-                guilds.map((guild) => {
-                  return (
-                    <TableRow key={guild.id.toString()} className="cursor-pointer" onClick={() => router.push(`/guilds/${guild.name}`)}>
-                      <TableCell className="min-w-[64px]">
-                        <Image src={`/guilds/${guild.logo_name}`} alt=" logo name " width={64} height={64} className="min-w-[64px]" />
-                      </TableCell>
-                      <TableCell className="w-full">
-                        <Typography component={'span'} variant={'h6'}>{guild.name}</Typography>
-                        <Typography component={'p'} variant={'body1'} className=" line-clamp-2 text-sm">{guild.description}</Typography>
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        <Typography component={'span'} variant={'overline'}>{guild.players.name}</Typography>
-                      </TableCell>
-                    </TableRow>
-                  )
-                })
-              }
+              {guilds.map((guild) => {
+                return (
+                  <TableRow key={guild.id.toString()} className="cursor-pointer" onClick={() => router.push(`/guilds/${guild.name}`)}>
+                    <TableCell className="min-w-[64px]">
+                      <Image src={`/guilds/${guild.logo_name}`} alt=" logo name " width={64} height={64} className="min-w-[64px]" />
+                    </TableCell>
+                    <TableCell className="w-full">
+                      <Typography component={'span'} variant={'h6'}>{guild.name}</Typography>
+                      <Typography component={'p'} variant={'body1'} className=" line-clamp-2 text-sm">{guild.description}</Typography>
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">
+                      <Typography component={'span'} variant={'overline'}>{guild.players.name}</Typography>
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
             </TableBody>
           </Table>
         ) : <TableEmptyState />}
