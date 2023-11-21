@@ -89,11 +89,19 @@ export default async function GuildData({ params }: { params: { name: string } }
     <Suspense key={guild.guild_ranks.length + guild.guild_membership.length}>
       <Card>
         <div className="flex flex-row justify-between items-center p-4">
-          <div className="hidden sm:flex"><img src={`/guilds/${guild.logo_name}`} alt=" logo name " width={64} height={64} /></div>
+          <div className="hidden sm:flex">
+            <picture>
+              <img src={`/guilds/${guild.logo_name}`} alt=" logo name " width={64} height={64} />
+            </picture>
+          </div>
           <div className="flex flex-col justify-center">
             <Typography variant="h3" className="text-2xl font-bold">{guild.name}</Typography>
           </div>
-          <div><img src={`/guilds/${guild.logo_name}`} alt=" logo name " width={64} height={64} /></div>
+          <div>
+            <picture>
+              <img src={`/guilds/${guild.logo_name}`} alt=" logo name " width={64} height={64} />
+            </picture>
+          </div>
         </div>
 
         <CardContent className="p-2 space-y-2">

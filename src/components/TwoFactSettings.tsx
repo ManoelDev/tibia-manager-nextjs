@@ -1,5 +1,4 @@
 "use client"
-import { useDisclosure, } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ErrorCode } from '../utils/ErrorCode';
 import TwoFactAuth from './TwoFactAuth';
@@ -10,6 +9,7 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { toast } from './ui/use-toast';
 import Image from 'next/image';
+import useDisclosure from '@/hooks/useDisclosure';
 
 enum SetupStep {
   ConfirmPassword,

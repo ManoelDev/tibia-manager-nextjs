@@ -12,7 +12,6 @@
     "seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.8.2",
     "@hookform/resolvers": "^3.3.2",
     "@iconify/react": "^4.1.1",
     "@next-auth/prisma-adapter": "^1.0.7",
@@ -47,7 +46,6 @@
     "@types/react-dom": "18.2.15",
     "autoprefixer": "10.4.16",
     "axios": "^1.6.1",
-    "base32-decode": "^1.0.0",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
@@ -68,7 +66,6 @@
     "otplib": "^12.0.1",
     "postcss": "8.4.31",
     "qrcode": "^1.5.3",
-    "qrcode-terminal": "^0.12.0",
     "react": "18.2.0",
     "react-digit-input": "^2.1.0",
     "react-dom": "18.2.0",
@@ -78,7 +75,6 @@
     "react-lazy-load-image-component": "^1.6.0",
     "recharts": "^2.9.3",
     "sharp": "^0.32.6",
-    "speakeasy": "^2.0.0",
     "tailwind-merge": "^2.0.0",
     "tailwindcss": "3.3.5",
     "tailwindcss-animate": "^1.0.7",
@@ -94,9 +90,7 @@
     "@types/numeral": "^2.0.5",
     "@types/paypal__checkout-server-sdk": "^1.0.8",
     "@types/qrcode": "^1.5.5",
-    "@types/qrcode-terminal": "^0.12.2",
     "@types/react-lazy-load-image-component": "^1.6.3",
-    "@types/speakeasy": "^2.0.10",
     "prisma": "^5.5.2"
   }
 }
