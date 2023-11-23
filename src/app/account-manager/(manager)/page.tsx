@@ -52,6 +52,14 @@ async function getAccount(id: number) {
   return account
 }
 
+async function findOnlinePlayer(player_id: number) {
+  const query = await prisma.players_online.findFirst({ where: { player_id } })
+  if (query) return true
+  return false
+}
+
+
+
 type Params = {
   params: { slug: string };
   searchParams: { [key: string]: string | undefined };
@@ -65,6 +73,13 @@ export default async function Dashboard({ params, searchParams }: Params) {
 
   const acc = await getAccount(Number(user?.id))
   if (!acc) redirect('/')
+
+  const ids = acc.players.map((i) => i.id)
+
+  const playersOnline = await prisma.players.findMany({
+    where: { AND: [{ id: { in: ids } },], },
+    select: { id: true }
+  })
 
 
   const lastLogin = acc.players.sort((a, b) => Number(b.lastlogin) - Number(a.lastlogin));
@@ -283,7 +298,7 @@ export default async function Dashboard({ params, searchParams }: Params) {
 
               </div>
 
-              <CharactersList chars={convertBigIntsToNumbers(acc?.players)} />
+              <CharactersList chars={convertBigIntsToNumbers(acc?.players)} playerOnline={playersOnline} />
               <div className="flex justify-end pt-2">
                 <CharacterForm />
               </div>

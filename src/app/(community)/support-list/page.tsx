@@ -6,6 +6,11 @@ import configLua from "@/hooks/configLua";
 import { prisma } from "@/lib/prisma";
 import dayjs from "dayjs";
 
+async function isOnline(player_id: number) {
+  const query = await prisma.players_online.findFirst({ where: { player_id } })
+  if (query) { return true }
+  return false
+}
 
 export default async function SupportList() {
 
@@ -58,7 +63,13 @@ export default async function SupportList() {
                     <TableRow key={character.id.toString()}>
                       <TableCell></TableCell>
                       <TableCell><Typography variant={"overline"} className="w-full">{character.name}</Typography></TableCell>
-                      <TableCell><Badge variant={'error'}>Offline</Badge></TableCell>
+                      <TableCell>
+                        {isOnline(character.id).then(online => (
+                          <Badge variant={online ? 'success' : 'destructive'}>
+                            {online ? 'ONLINE' : 'OFFLINE'}
+                          </Badge>
+                        ))}
+                      </TableCell>
                       <TableCell className="whitespace-nowrap">{dayjs.unix(Number(character.lastlogin)).format('D MMMM YYYY, h:mm')}</TableCell>
                     </TableRow>
                   )
@@ -79,7 +90,13 @@ export default async function SupportList() {
                     <TableRow key={character.id.toString()}>
                       <TableCell></TableCell>
                       <TableCell><Typography variant={"overline"} className="w-full">{character.name}</Typography> </TableCell>
-                      <TableCell><Badge variant={'error'}>Offline</Badge></TableCell>
+                      <TableCell>
+                        {isOnline(character.id).then(online => (
+                          <Badge variant={online ? 'success' : 'destructive'}>
+                            {online ? 'ONLINE' : 'OFFLINE'}
+                          </Badge>
+                        ))}
+                      </TableCell>
                       <TableCell className="whitespace-nowrap">{dayjs.unix(Number(character.lastlogin)).format('D MMMM YYYY, h:mm')}</TableCell>
                     </TableRow>
                   )
@@ -100,7 +117,13 @@ export default async function SupportList() {
                     <TableRow key={character.id.toString()}>
                       <TableCell></TableCell>
                       <TableCell><Typography variant={"overline"} className="w-full">{character.name}</Typography> </TableCell>
-                      <TableCell><Badge variant={'error'}>Offline</Badge></TableCell>
+                      <TableCell>
+                        {isOnline(character.id).then(online => (
+                          <Badge variant={online ? 'success' : 'destructive'}>
+                            {online ? 'ONLINE' : 'OFFLINE'}
+                          </Badge>
+                        ))}
+                      </TableCell>
                       <TableCell className="whitespace-nowrap">{dayjs.unix(Number(character.lastlogin)).format('D MMMM YYYY, h:mm')}</TableCell>
                     </TableRow>
                   )
@@ -121,7 +144,13 @@ export default async function SupportList() {
                     <TableRow key={character.id.toString()}>
                       <TableCell></TableCell>
                       <TableCell><Typography variant={"overline"} className="w-full">{character.name}</Typography> </TableCell>
-                      <TableCell><Badge variant={'error'}>Offline</Badge></TableCell>
+                      <TableCell>
+                        {isOnline(character.id).then(online => (
+                          <Badge variant={online ? 'success' : 'destructive'}>
+                            {online ? 'ONLINE' : 'OFFLINE'}
+                          </Badge>
+                        ))}
+                      </TableCell>
                       <TableCell className="whitespace-nowrap">{dayjs.unix(Number(character.lastlogin)).format('D MMMM YYYY, h:mm')}</TableCell>
                     </TableRow>
                   )
@@ -142,7 +171,13 @@ export default async function SupportList() {
                     <TableRow key={character.id.toString()}>
                       <TableCell></TableCell>
                       <TableCell><Typography variant={"overline"} className="w-full">{character.name}</Typography> </TableCell>
-                      <TableCell><Badge variant={'error'}>Offline</Badge></TableCell>
+                      <TableCell>
+                        {isOnline(character.id).then(online => (
+                          <Badge variant={online ? 'success' : 'destructive'}>
+                            {online ? 'ONLINE' : 'OFFLINE'}
+                          </Badge>
+                        ))}
+                      </TableCell>
                       <TableCell className="whitespace-nowrap">{dayjs.unix(Number(character.lastlogin)).format('D MMMM YYYY, h:mm')}</TableCell>
                     </TableRow>
                   )

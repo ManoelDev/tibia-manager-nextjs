@@ -20,7 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import RHFTextarea from "@/components/hook-form/RHFTextarea";
 import RHFSwitch from "@/components/hook-form/RHFSwitch";
 
-interface IProps { chars: players[] }
+interface IProps { chars: players[]; playerOnline: { id: number }[] }
 
 
 const EditPlayerSchema = z.object({
@@ -30,7 +30,7 @@ const EditPlayerSchema = z.object({
 type formValues = z.infer<typeof EditPlayerSchema>
 
 
-export default function CharactersList({ chars = [] }: IProps) {
+export default function CharactersList({ chars = [], playerOnline = [] }: IProps) {
 
   return (
     <>
@@ -52,7 +52,10 @@ export default function CharactersList({ chars = [] }: IProps) {
                 return (
                   <TableRow key={player.id.toString()}>
                     <TableCell>{player.name}</TableCell>
-                    <TableCell><Badge variant={"error"}>OFFLINE</Badge></TableCell>
+                    <TableCell>
+                      <Badge variant={playerOnline.find(p => p.id === player.id) ? 'success' : 'destructive'}>  {playerOnline.find(p => p.id === player.id) ? 'ONLINE' : 'OFFLINE'} </Badge>
+
+                      <Badge variant={"error"}>OFFLINE</Badge></TableCell>
                     <TableCell><Actions player={player} /></TableCell>
                   </TableRow>
                 )

@@ -9,8 +9,13 @@ import { getVocation } from "@/utils/functions/getVocations";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-export default async function Character({ params }: { params: { name: string } }) {
+async function isOnline(player_id: number) {
+  const query = await prisma.players_online.findFirst({ where: { player_id } })
+  if (query) { return true }
+  return false
+}
 
+export default async function Character({ params }: { params: { name: string } }) {
   const player = await prisma.players.findFirst({
     where: {
       AND: [
@@ -204,7 +209,13 @@ export default async function Character({ params }: { params: { name: string } }
                 {player.accounts.players.map((player) => (
                   <TableRow key={player.id}>
                     <TableCell className="w-full">{player.name}</TableCell>
-                    <TableCell><Badge variant={'success'}>ONLINE</Badge></TableCell>
+                    <TableCell>
+                      {isOnline(player.id).then(online => (
+                        <Badge variant={online ? 'success' : 'destructive'}>
+                          {online ? 'ONLINE' : 'OFFLINE'}
+                        </Badge>
+                      ))}
+                    </TableCell>
                     <TableCell className="text-right">
                       <Button variant={'green'}>
                         <Link href={`/characters/${player.name}`}>View</Link>

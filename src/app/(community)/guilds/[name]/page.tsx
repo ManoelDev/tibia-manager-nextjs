@@ -76,13 +76,10 @@ export default async function GuildData({ params }: { params: { name: string } }
 
   const { manager, level, player_id, isLogged } = await ToCreateOrJoinGuild(guild.id)
 
-  const playersOnline = await prisma.players.findMany({
-    where: { AND: [{ id: { in: ids } },], },
-    select: { id: true }
-  })
-
-  function isAnyPlayerOnline(players_id: number) {
-    return playersOnline.some(({ id }) => id === players_id);
+  async function isOnline(player_id: number) {
+    const query = await prisma.players_online.findFirst({ where: { player_id } })
+    if (query) { return true }
+    return false
   }
 
   return (
@@ -175,8 +172,11 @@ export default async function GuildData({ params }: { params: { name: string } }
                         <TableCell className="whitespace-nowrap">{getVocation(member.players.vocation)}</TableCell>
                         <TableCell >{member.players.level}</TableCell>
                         <TableCell className="text-center w-[90px]">
-                          {isAnyPlayerOnline(member.players.id) ? (<Badge variant={"success"} className="uppercase" >Online</Badge>) : (<Badge variant={"destructive"} className="uppercase" >offline</Badge>)
-                          }
+                          {isOnline(member.players.id).then(online => (
+                            <Badge variant={online ? 'success' : 'destructive'}>
+                              {online ? 'ONLINE' : 'OFFLINE'}
+                            </Badge>
+                          ))}
                         </TableCell>
                         {/* <TableCell className="text-center w-[90px]">{member.guild_ranks.level !== 1 && (<RemovePlayer guild_id={member.guild_id} player_id={member.player_id} />)}</TableCell> */}
                         <TableCell className="text-center w-[90px]">
@@ -235,9 +235,6 @@ export default async function GuildData({ params }: { params: { name: string } }
     </Suspense>
   )
 }
-
-
-
 
 function CancelInvitation({ guild_id, player_id }: { guild_id: number, player_id: number }) {
   const deleteInvitationWithId = CancelInvite.bind(null, { guild_id, player_id });
