@@ -54,8 +54,7 @@ export default function CharactersList({ chars = [], playerOnline = [] }: IProps
                     <TableCell>{player.name}</TableCell>
                     <TableCell>
                       <Badge variant={playerOnline.find(p => p.id === player.id) ? 'success' : 'destructive'}>  {playerOnline.find(p => p.id === player.id) ? 'ONLINE' : 'OFFLINE'} </Badge>
-
-                      <Badge variant={"error"}>OFFLINE</Badge></TableCell>
+                    </TableCell>
                     <TableCell><Actions player={player} /></TableCell>
                   </TableRow>
                 )
