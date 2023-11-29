@@ -101,4 +101,7 @@
   p {
     @apply text-[12pt];
   }
+  video {
+    @apply object-contain overflow-clip;
+  }
 }

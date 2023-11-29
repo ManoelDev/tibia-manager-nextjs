@@ -78,11 +78,19 @@ export default async function RootLayout({
             <ScrollArea className="h-screen w-full px-2">
               <div className='sm:grid sm:grid-cols-12 sm:space-x-2 sm:space-y-0 space-y-2 grid-cols-1 mx-auto max-w-screen-xl mt-10 hidden'>
                 <div className='col-span-2 space-y-2' >
-                  <Link href="/">
+
+                  {/* <Link href="/">
                     <Image src={'/testlogo2.png'} priority width={212} height={200} className='w-auto h-auto' alt='Logo' />
-                  </Link>
+                  </Link> */}
                 </div>
                 <div className='col-span-8 space-y-2'>
+                  <div className='flex justify-center items-center'>
+                    <Link href="/">
+                      <video className='w-[380px]' autoPlay muted playsInline loop>
+                        <source src="/movies/logo.webm" type="video/webm" />
+                      </video>
+                    </Link>
+                  </div>
                 </div>
 
                 <div className='sm:col-span-2 col-span-1 hidden sm:block gap-2'>

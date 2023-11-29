@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 
 const lua = configLua()
 
+export const revalidate = 0
+
 async function getStatus() {
   try {
     const statusServer = new StatusServer();
