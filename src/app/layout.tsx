@@ -67,19 +67,16 @@ export async function totalOnline() {
 }
 
 function extractIdsFromArrayOfObjects(array: any) {
-  // Função para extrair o ID da URL
   function extractIdFromUrl(url: string) {
     const match = url.match(/id=(\d+)/);
     return match ? match[1] : null;
   }
 
-  // Função para extrair IDs de um objeto
   function extractIdsFromObject(obj: any) {
     const id = extractIdFromUrl(obj.value);
     return { id, config: obj.config };
   }
 
-  // Aplicar a função em cada objeto do array
   return array.map(extractIdsFromObject);
 }
 
@@ -130,7 +127,7 @@ export default async function RootLayout({
                   <div className='flex flex-row justify-center items-end h-full pb-2 gap-2'>
                     <div className='bg-background/10 shadow rounded-sm backdrop-blur-[6px] p-3'>
                       <Boosted boosted={{
-                        boostname: '1066',
+                        boostname: boostedCreature[0].id,
                         lookaddons: 0,
                         lookbody: 0,
                         lookfeet: 0,
@@ -142,7 +139,7 @@ export default async function RootLayout({
                     </div>
                     <div className='bg-background/10 shadow rounded-sm backdrop-blur-[6px] p-3'>
                       <Boosted boosted={{
-                        boostname: '947',
+                        boostname: boostedBoss[0].id,
                         lookaddons: 0,
                         lookbody: 0,
                         lookfeet: 0,
