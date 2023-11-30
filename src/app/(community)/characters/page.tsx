@@ -6,12 +6,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useRouter } from "next/navigation";
 import { getVocation } from "@/utils/functions/getVocations";
 import TableEmptyState from "@/components/table-empty-state";
+import AnimatedOutfit from "@/components/aimations/AnimatedOutfit";
 
 interface Character {
   id: number
   name: string;
   vocation: number;
   level: number
+  looktype: number
 }
 
 export default function Characters() {
@@ -72,10 +74,12 @@ export default function Characters() {
                     characters.map((player) => {
                       return (
                         <TableRow key={player.id.toString()} onClick={() => router.push(`/characters/${player.name}`)} className="cursor-pointer">
-                          <TableCell>{player.id.toString()}</TableCell>
+                          <TableCell>
+                            <AnimatedOutfit outfit={player} alt={player.name} />
+                          </TableCell>
                           <TableCell>{player.name}</TableCell>
                           <TableCell className="whitespace-nowrap">{getVocation(player.vocation)}</TableCell>
-                          <TableCell className="text-center">{player.level}</TableCell>
+                          <TableCell className="text-right">{player.level}</TableCell>
                         </TableRow>
                       )
                     })

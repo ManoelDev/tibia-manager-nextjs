@@ -22,6 +22,7 @@ import { Typography } from '@/components/Typography'
 import { prisma } from '@/lib/prisma'
 import { Badge } from '@/components/ui/badge'
 import { IconiFy } from '@/components/Iconify';
+import Boosted from '@/components/aimations/boosted';
 
 const lua = configLua()
 
@@ -49,6 +50,10 @@ export async function status() {
       status: false,
     };
   }
+}
+
+async function boostedBoss() {
+
 }
 
 export async function totalOnline() {
@@ -96,10 +101,28 @@ export default async function RootLayout({
                 <div className='sm:col-span-2 col-span-1 hidden sm:block gap-2'>
                   <div className='flex flex-row justify-center items-end h-full pb-2 gap-2'>
                     <div className='bg-background/10 shadow rounded-sm backdrop-blur-[6px] p-3'>
-                      <Image src={'https://www.tibiawiki.com.br/images/7/7e/Charged_Anomaly.gif'} width={80} height={80} alt='Logo' />
+                      <Boosted boosted={{
+                        boostname: '1066',
+                        lookaddons: 0,
+                        lookbody: 0,
+                        lookfeet: 0,
+                        lookhead: 0,
+                        looklegs: 0,
+                        lookmount: 0,
+                        looktype: 306
+                      }} kind="creature" />
                     </div>
                     <div className='bg-background/10 shadow rounded-sm backdrop-blur-[6px] p-3'>
-                      <Image src={'https://www.tibiawiki.com.br/images/7/7e/Charged_Anomaly.gif'} width={80} height={80} alt='Logo' />
+                      <Boosted boosted={{
+                        boostname: '947',
+                        lookaddons: 0,
+                        lookbody: 0,
+                        lookfeet: 0,
+                        lookhead: 0,
+                        looklegs: 0,
+                        lookmount: 0,
+                        looktype: 875
+                      }} kind="boss" />
                     </div>
                   </div>
                 </div>
