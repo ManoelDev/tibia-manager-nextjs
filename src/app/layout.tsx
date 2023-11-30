@@ -66,6 +66,30 @@ export async function totalOnline() {
   }
 }
 
+function extractIdsFromArrayOfObjects(array: any) {
+  // Função para extrair o ID da URL
+  function extractIdFromUrl(url: string) {
+    const match = url.match(/id=(\d+)/);
+    return match ? match[1] : null;
+  }
+
+  // Função para extrair IDs de um objeto
+  function extractIdsFromObject(obj: any) {
+    const id = extractIdFromUrl(obj.value);
+    return { id, config: obj.config };
+  }
+
+  // Aplicar a função em cada objeto do array
+  return array.map(extractIdsFromObject);
+}
+
+
+async function getSeverConfig(value: string) {
+  const array1 = await prisma.$queryRaw<{ config: string, value: string }>`SELECT * from server_config WHERE config = ${value}`
+
+  return extractIdsFromArrayOfObjects(array1);
+
+}
 export default async function RootLayout({
   children,
 }: {
@@ -74,6 +98,10 @@ export default async function RootLayout({
 
   const statusServer = await status()
   const countOnline = await totalOnline()
+
+  const boostedCreature = await getSeverConfig('boost_monster_url')
+  const boostedBoss = await getSeverConfig('boost_boss_url')
+
 
   return (
     <html lang="en">
@@ -109,7 +137,7 @@ export default async function RootLayout({
                         lookhead: 0,
                         looklegs: 0,
                         lookmount: 0,
-                        looktype: 306
+                        looktype: boostedCreature[0].id
                       }} kind="creature" />
                     </div>
                     <div className='bg-background/10 shadow rounded-sm backdrop-blur-[6px] p-3'>
@@ -121,7 +149,7 @@ export default async function RootLayout({
                         lookhead: 0,
                         looklegs: 0,
                         lookmount: 0,
-                        looktype: 875
+                        looktype: boostedBoss[0].id
                       }} kind="boss" />
                     </div>
                   </div>
