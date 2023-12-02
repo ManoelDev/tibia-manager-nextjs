@@ -72,10 +72,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         switch (response?.error) {
           case ErrorCode.IncorrectPassword:
             toast({
-              title: "You submitted to data to login:",
+              title: "Login failed:",
               variant: 'destructive',
               description: (
-                <div>Login failure</div>
+                <div>invalid Credentials</div>
               ),
             })
             return;

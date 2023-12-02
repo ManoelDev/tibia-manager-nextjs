@@ -32,13 +32,13 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) return null
         const user = await prisma.accounts.findFirst({ where: { email: credentials.email } });
-        if (!user || !(comparePassword(credentials.password, user.password!))) return null;
+        if (!user || !(comparePassword(credentials.password, user.password!))) throw new Error(ErrorCode.IncorrectPassword);
 
         if (user.secret_status) {
           if (!credentials.totpCode) throw new Error(ErrorCode.SecondFactorRequired);
           if (!user.secret) throw new Error(ErrorCode.InternalServerError);
           const isValidToken = authenticator.check(credentials.totpCode, user.secret);
-          if (!isValidToken) throw new Error(ErrorCode.IncorrectTwoFactorCode);
+          if (!isValidToken) throw new Error(ErrorCode.IncorrectPassword);
         }
 
         await prisma.accounts.update({ where: { id: Number(user.id) }, data: { web_lastlogin: dayjs().unix() } })
