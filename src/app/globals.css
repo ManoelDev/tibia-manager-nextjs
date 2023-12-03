@@ -95,6 +95,7 @@
   body {
     /*
     @apply bg-background text-foreground p-0 m-0 box-border;
+    remover bg-[url('/backgrounds/background-artwork.jpg')] para remover a imagen de backgroud
     */
     @apply bg-[url('/backgrounds/background-artwork.jpg')] bg-no-repeat bg-top bg-[#051122] text-[12pt];
   }
