@@ -32,21 +32,19 @@ export async function PATCH(req: Request) {
     await prisma.accounts.update({
       where: { id: Number(user.id) },
       data: {
-        email: email
+        email: email,
+        email_verified: false
       }
     })
 
     await emailProvider.SendMail({
       to: session.user.email,
-      subject: 'Reset Password',
-      text: 'Reset Password Messsage',
+      subject: 'Change Email',
+      text: 'Change Email',
       html: `
       <div>
-         <h1>Follow the following link</h1>
-          <p>Please follow
-            <a href=""> this link </a>
-            to reset your password
-            </p>
+         <h1>This email as been changed</h1>
+          <p>Please confirm email in panel</p>
       </div>
       `,
     });

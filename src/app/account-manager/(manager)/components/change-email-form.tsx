@@ -58,8 +58,7 @@ export function ChangeEmailForm() {
 
 
     if (response.ok) {
-      signOut({ redirect: false })
-      router.push('/account-manager')
+      signOut({ redirect: true, callbackUrl: '/' })
       toast({
         title: "Account Manager",
         description: (
