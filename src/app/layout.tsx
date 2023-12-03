@@ -23,6 +23,7 @@ import { prisma } from '@/lib/prisma'
 import { Badge } from '@/components/ui/badge'
 import { IconiFy } from '@/components/Iconify';
 import Boosted from '@/components/aimations/boosted';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const lua = configLua()
 
@@ -124,7 +125,12 @@ export default async function RootLayout({
                 </div>
 
                 <div className='sm:col-span-2 col-span-1 hidden sm:block gap-2'>
-                  <div className='flex flex-row justify-center items-end h-full pb-2 gap-2'>
+
+
+
+
+
+                  {/* <div className='flex flex-row justify-center items-end h-full pb-2 gap-2'>
                     <div className='bg-background/10 shadow rounded-sm backdrop-blur-[6px] p-3'>
                       <Boosted boosted={{
                         boostname: boostedCreature[0].id,
@@ -149,7 +155,7 @@ export default async function RootLayout({
                         looktype: boostedBoss[0].id
                       }} kind="boss" />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
               </div>
@@ -224,6 +230,42 @@ export default async function RootLayout({
                 </div>
 
                 <div className='sm:col-span-2 col-span-1 gap-2 space-y-2 '>
+                  <div className='bg-background/10 shadow rounded-sm backdrop-blur-[6px] p-1 w-full'>
+                    <Card>
+                      <CardHeader className='border-b'>
+                        <CardTitle className='grid grid-cols-2 text-center'>
+                          <div>Creature</div>
+                          <div>Boss</div>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className='flex flex-row justify-between'>
+
+
+                        <Boosted boosted={{
+                          boostname: boostedCreature[0].id,
+                          lookaddons: 0,
+                          lookbody: 0,
+                          lookfeet: 0,
+                          lookhead: 0,
+                          looklegs: 0,
+                          lookmount: 0,
+                          looktype: boostedCreature[0].id
+                        }} kind="creature" />
+
+                        <Boosted boosted={{
+                          boostname: boostedBoss[0].id,
+                          lookaddons: 0,
+                          lookbody: 0,
+                          lookfeet: 0,
+                          lookhead: 0,
+                          looklegs: 0,
+                          lookmount: 0,
+                          looktype: boostedBoss[0].id
+                        }} kind="boss" />
+                      </CardContent>
+                    </Card>
+
+                  </div>
                   <div className='flex flex-col p-1 gap-2 bg-background/10 shadow rounded-md backdrop-blur-[6px]'>
                     <CountDown hour={19} min={55} />
                   </div>

@@ -5,7 +5,7 @@ import { z } from "zod"
 import { Typography } from "@/components/Typography";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
@@ -20,7 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import RHFTextarea from "@/components/hook-form/RHFTextarea";
 import RHFSwitch from "@/components/hook-form/RHFSwitch";
 
-interface IProps { chars: players[]; playerOnline: { id: number }[] }
+interface IProps { chars: players[]; playerOnline: { player_id: number }[] }
 
 
 const EditPlayerSchema = z.object({
@@ -31,7 +31,6 @@ type formValues = z.infer<typeof EditPlayerSchema>
 
 
 export default function CharactersList({ chars = [], playerOnline = [] }: IProps) {
-
   return (
     <>
       <section>
@@ -53,7 +52,7 @@ export default function CharactersList({ chars = [], playerOnline = [] }: IProps
                   <TableRow key={player.id.toString()}>
                     <TableCell>{player.name}</TableCell>
                     <TableCell>
-                      <Badge variant={playerOnline.find(p => p.id === player.id) ? 'success' : 'destructive'}>  {playerOnline.find(p => p.id === player.id) ? 'ONLINE' : 'OFFLINE'} </Badge>
+                      <Badge variant={playerOnline.find(p => p.player_id === player.id) ? 'success' : 'destructive'}>  {playerOnline.find(p => p.player_id === player.id) ? 'ONLINE' : 'OFFLINE'} </Badge>
                     </TableCell>
                     <TableCell><Actions player={player} /></TableCell>
                   </TableRow>

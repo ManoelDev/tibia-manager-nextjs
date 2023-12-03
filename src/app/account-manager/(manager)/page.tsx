@@ -76,9 +76,9 @@ export default async function Dashboard({ params, searchParams }: Params) {
 
   const ids = acc.players.map((i) => i.id)
 
-  const playersOnline = await prisma.players.findMany({
-    where: { AND: [{ id: { in: ids } },], },
-    select: { id: true }
+  const playersOnline = await prisma.players_online.findMany({
+    where: { AND: [{ player_id: { in: ids } },], },
+    select: { player_id: true }
   })
 
 

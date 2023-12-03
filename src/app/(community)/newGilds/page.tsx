@@ -42,7 +42,6 @@ export default async function Guilds({ searchParams }: { searchParams?: { search
   const page = Number(searchParams?.page) || 1;
   const { guilds, totalPage, } = await fetchGuilds({ page, search });
 
-  console.log('guilds', guilds[8].guild_membership)
 
   return (
     <Card>

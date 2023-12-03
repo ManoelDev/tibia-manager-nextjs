@@ -44,7 +44,6 @@ const InvitePlayer = async (request: Request, { params }: { params: Params }) =>
 
   try {
     const { rank_id } = ValidateInviteSchema.parse(await request.json())
-    console.log('rank_id', rank_id)
     const session = await getServerSession(authOptions);
     if (!session) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
 
@@ -74,7 +73,6 @@ type FindParams = { id: string, name: string }
 
 const find = async (request: Request, { params }: { params: FindParams }) => {
 
-  console.log('params', params)
 
   const characters = await prisma.players.findMany({
     where: {

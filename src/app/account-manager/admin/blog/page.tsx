@@ -86,7 +86,6 @@ export default function AdminBlog() {
 
     if (get.ok) {
       const body = await get.json()
-      console.log('body', body)
       setPosts({
         posts: body.posts,
         totalPages: body.totalPages,
