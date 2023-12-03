@@ -1,3 +1,4 @@
+import { randomFillSync } from 'crypto'
 import configLua from "@/hooks/configLua";
 import { MailProvider } from "@/lib/nodemailer";
 import { prisma } from "@/lib/prisma";
@@ -7,6 +8,8 @@ import dayjs from "dayjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+
+const generatePassword = (length = 20, characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@-#$') => Array.from(randomFillSync(new Uint32Array(length))).map((x) => characters[x % characters.length]).join('')
 
 
 
@@ -21,7 +24,7 @@ const validate = async (request: Request) => {
 
   const { code, token } = ValidateSchema.parse(await request.json())
 
-  console.log('body', code, token)
+
   const getToken = await prisma.tokens.findFirst({
     where: { code, token, isValid: true }, include: {
       accounts: {
@@ -40,7 +43,7 @@ const validate = async (request: Request) => {
 
   if (now.isAfter(createdAt) && !now.isBefore(validatedAt)) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
 
-  const newPass = randomCode(10)
+  const newPass = generatePassword()
 
   await prisma.accounts.update({
     where: { id: getToken.account_id! },
