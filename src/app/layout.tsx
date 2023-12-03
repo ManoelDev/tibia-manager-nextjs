@@ -106,6 +106,9 @@ export default async function RootLayout({
       <body className={inter.className} suppressHydrationWarning >
         <>
           <Provider>
+            {/* <video className="fixed top-0 left-0 min-w-full min-h-full -z-1 object-cover" autoPlay muted playsInline loop>
+              <source src="/movies/logo.webm" type="video/webm" />
+            </video> */}
             <ScrollArea className="h-screen w-full px-2">
               <div className='sm:grid sm:grid-cols-12 sm:space-x-2 sm:space-y-0 space-y-2 grid-cols-1 mx-auto max-w-screen-xl mt-10 hidden'>
                 <div className='col-span-2 space-y-2' >
