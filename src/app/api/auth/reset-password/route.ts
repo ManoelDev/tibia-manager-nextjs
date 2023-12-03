@@ -3,13 +3,33 @@ import configLua from "@/hooks/configLua";
 import { MailProvider } from "@/lib/nodemailer";
 import { prisma } from "@/lib/prisma";
 import { encryptPassword } from "@/utils/functions/criptoPassword";
-import { randomCode } from "@/utils/functions/randomCode";
 import dayjs from "dayjs";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
 
-const generatePassword = (length = 20, characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@-#$') => Array.from(randomFillSync(new Uint32Array(length))).map((x) => characters[x % characters.length]).join('')
+function gerarSenha(tamanho: number) {
+  const caracteresEspeciais = "@#$%&";
+  const letrasMaiusculas = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const letrasMinusculas = "abcdefghijklmnopqrstuvwxyz";
+  const numeros = "0123456789";
+
+  const caracteres = caracteresEspeciais + letrasMaiusculas + letrasMinusculas + numeros;
+
+  let senha = "";
+
+  // Garantir pelo menos um caractere especial, uma letra maiúscula e uma letra minúscula
+  senha += caracteresEspeciais.charAt(Math.floor(Math.random() * caracteresEspeciais.length));
+  senha += letrasMaiusculas.charAt(Math.floor(Math.random() * letrasMaiusculas.length));
+  senha += letrasMinusculas.charAt(Math.floor(Math.random() * letrasMinusculas.length));
+
+  for (let i = senha.length; i < tamanho; i++) {
+    const indice = Math.floor(Math.random() * caracteres.length);
+    senha += caracteres.charAt(indice);
+  }
+
+  return senha;
+}
 
 
 
@@ -43,11 +63,11 @@ const validate = async (request: Request) => {
 
   if (now.isAfter(createdAt) && !now.isBefore(validatedAt)) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
 
-  const newPass = generatePassword()
+  const newPass = gerarSenha(12)
 
   await prisma.accounts.update({
     where: { id: getToken.account_id! },
-    data: { password: encryptPassword(newPass) }
+    data: { password: encryptPassword(newPass), }
   })
   await prisma.tokens.update({
     where: { id: getToken.id! },
