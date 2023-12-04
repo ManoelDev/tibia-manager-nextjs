@@ -118,11 +118,13 @@ export function ChangeAccountInfoForm({ defaultValues }: { defaultValues: Omit<f
               <Typography variant={'h6'} className="py-2">Address</Typography>
               <div className="grid sm:grid-cols-2 gap-2">
                 <RHFTextField label="Postal Code:" name="address.zipCode" type="text" disabled={isSubmitting} />
-                <RHFSelect LabelOption={'label'} keyValue={'value'} name="address.country" label="Country:" options={countries ?? []} defaultValue={getValues('address.country')} />
+                <RHFTextField label="Country" name="address.country" type="text" disabled={isSubmitting} />
+
               </div>
               <div className="grid sm:grid-cols-2 gap-2">
-                <RHFSelect LabelOption={'label'} keyValue={'value'} name="address.state" label="State/Province:" options={[]} defaultValue={getValues('address.state')} />
-                <RHFSelect LabelOption={'label'} keyValue={'value'} name="city" label="City:" options={[]} defaultValue={getValues('address.city')} />
+                <RHFTextField label="Country" name="address.state" type="text" disabled={isSubmitting} />
+                <RHFTextField label="Country" name="address.city" type="text" disabled={isSubmitting} />
+
               </div>
               <RHFTextField label="Street Address:" name="address.street" type="text" disabled={isSubmitting} />
               <div className="grid sm:grid-cols-2 gap-2">
