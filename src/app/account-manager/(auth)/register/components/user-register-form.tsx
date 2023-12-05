@@ -203,7 +203,7 @@ export function UseRegisterForm({ className, ...props }: UseRegisterFormProps) {
             <h4 className="text-sm font-medium">World Type:</h4>
             <RadioGroup defaultValue="retro-pvp" className="grid grid-cols-4 gap-4">
               <div>
-                <RadioGroupItem value="pvp" id="pvp" className="peer sr-only" />
+                <RadioGroupItem value="pvp" id="pvp" className="peer sr-only" disabled />
                 <Label
                   htmlFor="pvp"
                   className="flex flex-col items-center justify-between rounded-md border-2 border-muted p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-gray-900 [&:has([data-state=checked])]:border-gray-900 cursor-pointer"
@@ -226,7 +226,7 @@ export function UseRegisterForm({ className, ...props }: UseRegisterFormProps) {
                 </Label>
               </div>
               <div>
-                <RadioGroupItem value="retro-pvp" id="retro-pvp" className="peer sr-only" disabled />
+                <RadioGroupItem value="retro-pvp" id="retro-pvp" className="peer sr-only" />
                 <Label
                   htmlFor="retro-pvp"
                   className="flex flex-col items-center justify-between rounded-md border-2 border-muted p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-gray-900 [&:has([data-state=checked])]:border-gray-900 cursor-pointer"
