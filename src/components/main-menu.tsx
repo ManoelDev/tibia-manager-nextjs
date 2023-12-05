@@ -106,6 +106,9 @@ export default function MainMenu() {
               <Button asChild className="justify-between">
                 <Link href={'/shop'}>Buy Coins</Link>
               </Button>
+              <Button asChild className="justify-between">
+                <Link href={'/character-market'}>Character Market</Link>
+              </Button>
             </div>
           </AccordionContent>
         </AccordionItem>

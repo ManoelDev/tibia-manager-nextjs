@@ -27,7 +27,7 @@ export default async function Casts() {
           <Table>
             <TableHeader className="pointer-events-none">
               <TableRow>
-                <TableHead className="w-[20px]">outfit</TableHead>
+                <TableHead className="w-[80px] text-right">outfit</TableHead>
                 <TableHead className="w-full">Name</TableHead>
                 <TableHead className="w-full">Status</TableHead>
               </TableRow>
