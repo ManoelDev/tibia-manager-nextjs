@@ -1,4 +1,5 @@
 import { Typography } from "@/components/Typography";
+import AnimatedOutfit from "@/components/aimations/AnimatedOutfit";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -61,7 +62,9 @@ export default async function SupportList() {
                 {characters.filter((f) => f.group_id === 6).map((character) => {
                   return (
                     <TableRow key={character.id.toString()}>
-                      <TableCell></TableCell>
+                      <TableCell>
+                        <AnimatedOutfit outfit={character} alt={character.name} />
+                      </TableCell>
                       <TableCell><Typography variant={"overline"} className="w-full">{character.name}</Typography></TableCell>
                       <TableCell>
                         {isOnline(character.id).then(online => (
@@ -88,7 +91,9 @@ export default async function SupportList() {
                 {characters.filter((f) => f.group_id === 5).map((character) => {
                   return (
                     <TableRow key={character.id.toString()}>
-                      <TableCell></TableCell>
+                      <TableCell>
+                        <AnimatedOutfit outfit={character} alt={character.name} />
+                      </TableCell>
                       <TableCell><Typography variant={"overline"} className="w-full">{character.name}</Typography> </TableCell>
                       <TableCell>
                         {isOnline(character.id).then(online => (
@@ -115,7 +120,9 @@ export default async function SupportList() {
                 {characters.filter((f) => f.group_id === 4).map((character) => {
                   return (
                     <TableRow key={character.id.toString()}>
-                      <TableCell></TableCell>
+                      <TableCell>
+                        <AnimatedOutfit outfit={character} alt={character.name} />
+                      </TableCell>
                       <TableCell><Typography variant={"overline"} className="w-full">{character.name}</Typography> </TableCell>
                       <TableCell>
                         {isOnline(character.id).then(online => (
@@ -142,7 +149,9 @@ export default async function SupportList() {
                 {characters.filter((f) => f.group_id === 3).map((character) => {
                   return (
                     <TableRow key={character.id.toString()}>
-                      <TableCell></TableCell>
+                      <TableCell>
+                        <AnimatedOutfit outfit={character} alt={character.name} />
+                      </TableCell>
                       <TableCell><Typography variant={"overline"} className="w-full">{character.name}</Typography> </TableCell>
                       <TableCell>
                         {isOnline(character.id).then(online => (
@@ -169,7 +178,9 @@ export default async function SupportList() {
                 {characters.filter((f) => f.group_id === 2).map((character) => {
                   return (
                     <TableRow key={character.id.toString()}>
-                      <TableCell></TableCell>
+                      <TableCell>
+                        <AnimatedOutfit outfit={character} alt={character.name} />
+                      </TableCell>
                       <TableCell><Typography variant={"overline"} className="w-full">{character.name}</Typography> </TableCell>
                       <TableCell>
                         {isOnline(character.id).then(online => (
