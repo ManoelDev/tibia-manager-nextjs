@@ -8,7 +8,6 @@ import {
 import { Button } from "./ui/button"
 import Link from "next/link"
 
-import { Icon } from '@iconify/react'
 
 export default function MainMenu() {
   return (
@@ -60,6 +59,9 @@ export default function MainMenu() {
               </Button>
               <Button asChild className="justify-between">
                 <Link href={'/support-list'}>Support List</Link>
+              </Button>
+              <Button asChild className="justify-between">
+                <Link href={'/casts'}>Casts</Link>
               </Button>
             </div>
           </AccordionContent>
