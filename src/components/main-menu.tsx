@@ -56,6 +56,9 @@ export default function MainMenu() {
                 <Link href={'/guilds'}>Guilds</Link>
               </Button>
               <Button asChild className="justify-between">
+                <Link href={'/last-kills'}>Last Kills</Link>
+              </Button>
+              <Button asChild className="justify-between">
                 <Link href={'/support-list'}>Support List</Link>
               </Button>
             </div>

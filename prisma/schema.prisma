@@ -473,14 +473,13 @@ model player_deaths {
   unjustified            Boolean @default(false)
   mostdamage_unjustified Boolean @default(false)
   killer_id              Int     @default(0)
-  id                     Int     @default(0)
+  id                     Int     @id @default(autoincrement())
   date                   Int?    @default(0)
   players                players @relation(fields: [player_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "player_deaths_ibfk_1")
 
   @@index([killed_by], map: "killed_by")
   @@index([mostdamage_by], map: "mostdamage_by")
   @@index([player_id], map: "player_id")
-  @@ignore
 }
 
 model player_former_names {
