@@ -201,7 +201,7 @@ export function UseRegisterForm({ className, ...props }: UseRegisterFormProps) {
 
           <div className="grid gap-1">
             <h4 className="text-sm font-medium">World Type:</h4>
-            <RadioGroup defaultValue="pvp" className="grid grid-cols-4 gap-4">
+            <RadioGroup defaultValue="retro-pvp" className="grid grid-cols-4 gap-4">
               <div>
                 <RadioGroupItem value="pvp" id="pvp" className="peer sr-only" />
                 <Label
