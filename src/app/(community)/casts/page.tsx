@@ -6,17 +6,30 @@ import { prisma } from "@/lib/prisma";
 import { convertBigIntsToNumbers } from "@/utils/functions/convertBigIntsToNumbers";
 import { getVocation } from "@/utils/functions/getVocations";
 import { players } from "@prisma/client";
+import Search from "./components/search";
+import Pagination from "@/components/pagination";
 
 export const revalidate = 0
+const ITEMS_PER_PAGE = 25
 
-const PlayersCasts = async () => {
-  const query = await prisma.players.findMany({ where: { cast_on: 1 } })
+const PlayersCasts = async ({ currentPage, search }: { search: string, currentPage: number, }) => {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
-  return convertBigIntsToNumbers(query)
+  const count = await prisma.players.count({ where: { cast_on: 1, name: { contains: search ? search : undefined } } })
+  const query = await prisma.players.findMany({
+    where: { cast_on: 1, name: { contains: search ? search : undefined } }, take: ITEMS_PER_PAGE,
+    skip: offset,
+  })
+
+  return { players: convertBigIntsToNumbers(query), totalPage: Math.ceil(Number(count) / ITEMS_PER_PAGE) }
 }
 
-export default async function Casts() {
-  const players = await PlayersCasts()
+export default async function Casts({ searchParams }: { searchParams?: { search?: string; page?: string; } }) {
+
+  const currentPage = Number(searchParams?.page) || 1;
+  const search = searchParams?.search || '';
+
+  const { players, totalPage } = await PlayersCasts({ search, currentPage })
   return (<>
     <Card>
       <CardHeader className="border-b">
@@ -24,6 +37,10 @@ export default async function Casts() {
       </CardHeader>
       <CardContent className="p-2 space-y-2">
         <div className="border rounded">
+          <div className="flex flex-row border-b p-2 gap-2">
+            <Search placeholder="Search player name..." />
+            <Pagination totalPages={totalPage} />
+          </div>
           <Table>
             <TableHeader className="pointer-events-none">
               <TableRow>

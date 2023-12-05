@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { fUnixToDate } from "@/utils/functions/formatDate";
 import Link from "next/link";
 
+export const revalidate = 0
+
 const findPlayerById = async (id: number) => await prisma.players.findFirst({ where: { id }, select: { name: true } })
 
 const getLastKills = async () => {

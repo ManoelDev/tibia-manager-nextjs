@@ -11,7 +11,7 @@ import Pagination from "@/components/pagination";
 import { convertBigIntsToNumbers } from "@/utils/functions/convertBigIntsToNumbers";
 import Search from "./components/search";
 
-
+export const revalidate = 0
 const ITEMS_PER_PAGE = 25
 
 const findPlayerById = async (id: number) => {
