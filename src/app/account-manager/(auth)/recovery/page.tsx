@@ -2,10 +2,7 @@
 import { Metadata } from "next"
 
 import { UserRecoveryForm } from "./components/user-recovery-form";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Recover Password",
@@ -35,7 +32,7 @@ export default function Recovery() {
           <li>request a new recovery key/recovery TAN (only available to registered accounts),</li>
           <li>remove an authenticator app from your account (only possible with a valid recovery key or a valid recovery TAN),</li>
           <li>disable email code authentication for your account (only available to accounts with a valid recovery key).</li>
-          <li>As a first step to use the Lost Account Interface, please enter the name of a character or the email address of your account and click on "Submit".</li>
+          <li>As a first step to use the Lost Account Interface, please enter the name of a character or the email address of your account and click on &quot;Submit&quot;.</li>
         </div>
         <div><UserRecoveryForm /></div>
       </CardContent>
