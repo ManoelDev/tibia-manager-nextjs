@@ -15,6 +15,7 @@ import { z } from "zod"
 import { FormProvider, RHFSelect, RHFTextField } from "@/components/hook-form"
 import { Icon } from '@iconify/react'
 import Link from "next/link"
+import RHFCheckbox from "@/components/hook-form/RHFCheckbox";
 
 
 interface UseRegisterFormProps extends React.HTMLAttributes<HTMLDivElement> { }
@@ -47,6 +48,7 @@ export function UseRegisterForm({ className, ...props }: UseRegisterFormProps) {
     gender: z.string(),
     wLocation: z.string().optional(),
     wType: z.string().optional(),
+    terms: z.boolean().default(false)
   })
 
   type LoginFormValues = z.infer<typeof loginFormSchema>
@@ -58,7 +60,7 @@ export function UseRegisterForm({ className, ...props }: UseRegisterFormProps) {
     }
   })
 
-  const { handleSubmit, formState: { isSubmitting } } = methods
+  const { handleSubmit, watch, formState: { isSubmitting } } = methods
 
   async function onSubmit(data: LoginFormValues) {
     fetch("/api/auth/register", {
@@ -243,13 +245,19 @@ export function UseRegisterForm({ className, ...props }: UseRegisterFormProps) {
               </div>
             </RadioGroup>
           </div>
+          <div className=" flex flex-row gap-2 justify-end">
+            <RHFCheckbox
+              name="terms"
+              label="Li e aceito os termos"
+            />
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Button variant={'link'} asChild className="sm:order-1 order-2">
               <Link href="/account-manager/login" >
                 Back to login
               </Link>
             </Button>
-            <Button disabled={isSubmitting} type="submit" className="sm:order-2 order-1">
+            <Button disabled={isSubmitting || !watch('terms')} type="submit" className="sm:order-2 order-1">
               {isSubmitting ? (<Icon icon="eos-icons:loading" className="h-4 w-4 animate-spin" />) : 'Create Account'}
             </Button>
           </div>
