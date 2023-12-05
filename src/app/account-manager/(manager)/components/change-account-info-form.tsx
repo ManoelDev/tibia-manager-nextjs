@@ -122,8 +122,8 @@ export function ChangeAccountInfoForm({ defaultValues }: { defaultValues: Omit<f
 
               </div>
               <div className="grid sm:grid-cols-2 gap-2">
-                <RHFTextField label="Country" name="address.state" type="text" disabled={isSubmitting} />
-                <RHFTextField label="Country" name="address.city" type="text" disabled={isSubmitting} />
+                <RHFTextField label="State" name="address.state" type="text" disabled={isSubmitting} />
+                <RHFTextField label="City" name="address.city" type="text" disabled={isSubmitting} />
 
               </div>
               <RHFTextField label="Street Address:" name="address.street" type="text" disabled={isSubmitting} />
