@@ -22,8 +22,8 @@ export default function Register() {
         <CardHeader className="border-b">
           <CardTitle>Create New Account</CardTitle>
         </CardHeader>
-        <CardContent className="grid grid-cols-2 gap-3">
-          <ScrollArea className="h-[440px] border rounded p-2">
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <ScrollArea className="h-[220px] sm:h-[440px] border rounded p-2">
             <div className="space-y-3">
               <Typography variant={'h5'}>1. TERMOS</Typography>
               <Typography variant={'body1'} component={'p'} >
