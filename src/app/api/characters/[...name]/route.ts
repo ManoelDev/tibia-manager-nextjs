@@ -16,7 +16,7 @@ const find = async (request: Request, { params }: { params: Params }) => {
 
       ],
     },
-    take: 50
+    take: 25
   });
 
   return NextResponse.json(convertBigIntsToNumbers(characters));
