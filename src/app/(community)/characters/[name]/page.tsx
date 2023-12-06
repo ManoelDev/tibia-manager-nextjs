@@ -58,11 +58,43 @@ export default async function Character({ params }: { params: { name: string } }
           }
         }
       },
+      guild_membership: {
+        include: {
+          guild_ranks: true,
+          guilds: true
+        }
+      }
     }
   });
 
   if (!player) redirect('/characters')
 
+  const deaths = await prisma.player_deaths.findMany({ where: { player_id: player.id }, take: 5 })
+
+  const LoyaltRaking = (raking: number) => {
+    if (raking >= 5000 && raking < 10000) {
+      return "John Cena";
+    } else if (raking >= 10000 && raking < 15000) {
+      return "Bruce Lee";
+    } else if (raking >= 15000 && raking < 20000) {
+      return "Jackie Chan";
+    } else if (raking >= 20000 && raking < 25000) {
+      return "Rocky Balboa";
+    } else if (raking >= 25000 && raking < 30000) {
+      return "Van Damme";
+    } else if (raking >= 30000 && raking < 35000) {
+      return "The Rock";
+    } else if (raking >= 35000 && raking < 40000) {
+      return "Arnold Schwarzenegger";
+    } else if (raking >= 40000 && raking < 45000) {
+      return "Vin Diesel";
+    } else if (raking >= 45000 && raking < 50000) {
+      return "Latrel";
+    } else if (raking >= 50000) {
+      return "Chuck Norris";
+    }
+    return "No Ranking"
+  }
 
   return (
     <>
@@ -104,9 +136,14 @@ export default async function Character({ params }: { params: { name: string } }
                   <TableCell>{player?.level}</TableCell>
                 </TableRow> */}
 
+                {!player.guilds && player.guild_membership?.guilds && (<TableRow>
+                  <TableCell>Guild Membership:</TableCell>
+                  <TableCell> A  member of the <Link href={`/guilds/${player.guild_membership?.guilds.name}`} className="text-blue-500 hover:underline">{player.guild_membership?.guilds.name}</Link></TableCell>
+                </TableRow>)}
+
                 {player.guilds?.name && (<TableRow>
                   <TableCell>Guild Membership:</TableCell>
-                  <TableCell> A {player.id === player.guilds.ownerid ? 'Leader' : 'Member'} of the <Link href={`/guilds/${player.guilds?.name}`} className="text-blue-500 hover:underline">{player.guilds?.name}</Link></TableCell>
+                  <TableCell> A Leader of the <Link href={`/guilds/${player.guilds?.name}`} className="text-blue-500 hover:underline">{player.guilds?.name}</Link></TableCell>
                 </TableRow>)}
 
 
@@ -167,7 +204,7 @@ export default async function Character({ params }: { params: { name: string } }
               <TableBody>
                 <TableRow>
                   <TableCell className="w-[140px]">Loyalty Title:</TableCell>
-                  <TableCell>none</TableCell>
+                  <TableCell>{LoyaltRaking(player.loyalt_store)}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Created:</TableCell>
@@ -184,11 +221,24 @@ export default async function Character({ params }: { params: { name: string } }
             </div>
             <Table>
               <TableBody>
-                <TableRow>
-                  <TableCell colSpan={4}>
-                    <Typography variant="overline" className="text-center">Not Death.</Typography>
-                  </TableCell>
-                </TableRow>
+                {deaths.map((death, index) => {
+                  return (
+                    <TableRow key={index} >
+                      <TableCell className="text-right">{index + 1}</TableCell>
+                      <TableCell className="whitespace-nowrap">{fUnixToDate(Number(death.time))}</TableCell>
+                      <TableCell className="w-full"><Link href={`/characters/${player?.name}`} className="text-blue-500">{player?.name}</Link>  died at level <b>{death.level}</b> by {death.is_player && 'a '} {death.is_player ? <Link href={`/characters/${death.killed_by}`} className="text-blue-500">{death.killed_by}</Link> : death.killed_by} </TableCell>
+                    </TableRow>
+                  )
+                })}
+
+                {deaths.length === 0 && (
+                  <TableRow>
+                    <TableCell colSpan={4}>
+                      <Typography variant="overline" className="text-center">Not Death.</Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
+
               </TableBody>
             </Table>
           </div>

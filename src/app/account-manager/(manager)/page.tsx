@@ -280,14 +280,14 @@ export default async function Dashboard({ params, searchParams }: Params) {
                         </TableCell>
                       </TableRow> */}
 
-                      <TableRow>
+                      {/* <TableRow>
                         <TableCell className="w-[170px]">Loyalty Points:</TableCell>
                         <TableCell className="">{acc?.loyalty_points.toString()}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell className="w-[170px]">Loyalty Title:</TableCell>
                         <TableCell className="">(no title) (Promotion to: Scout of Tibia at 50 Loyalty Points)</TableCell>
-                      </TableRow>
+                      </TableRow> */}
                       <TableRow>
                         <TableCell className="w-[170px]">Registered:</TableCell>
                         <TableCell className="uppercase"><Badge variant={acc.email_verified === true ? "success" : "destructive"}>{acc.email_verified === true ? "Registered" : "Unregistered"}</Badge></TableCell>
