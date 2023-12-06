@@ -96,6 +96,17 @@ export default async function Character({ params }: { params: { name: string } }
     return "No Ranking"
   }
 
+  const guildRankings = (raking: number) => {
+    if (raking === 3) {
+      return "Leader";
+    } else if (raking === 2) {
+      return "Vice Leader";
+    } else if (raking === 1) {
+      return "Member";
+    }
+    return "No Ranking"
+  }
+
   return (
     <>
       <Card>
@@ -138,7 +149,7 @@ export default async function Character({ params }: { params: { name: string } }
 
                 {!player.guilds?.name && player.guild_membership?.guilds && (<TableRow>
                   <TableCell>Guild Membership:</TableCell>
-                  <TableCell> A  member of the <Link href={`/guilds/${player.guild_membership?.guilds.name}`} className="text-blue-500 hover:underline">{player.guild_membership?.guilds.name}</Link></TableCell>
+                  <TableCell>{guildRankings(player.guild_membership.guild_ranks.level)} of the <Link href={`/guilds/${player.guild_membership?.guilds.name}`} className="text-blue-500 hover:underline">{player.guild_membership?.guilds.name}</Link></TableCell>
                 </TableRow>)}
 
                 {player.guilds?.name && (<TableRow>
