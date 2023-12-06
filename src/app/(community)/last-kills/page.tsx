@@ -9,7 +9,7 @@ export const revalidate = 0
 const findPlayerById = async (id: number) => await prisma.players.findFirst({ where: { id }, select: { name: true } })
 
 const getLastKills = async () => {
-  const query = await prisma.player_deaths.findMany({ take: 50 })
+  const query = await prisma.player_deaths.findMany({ take: 50, orderBy: { time: 'desc' } })
   return query
 }
 

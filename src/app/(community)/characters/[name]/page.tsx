@@ -69,7 +69,7 @@ export default async function Character({ params }: { params: { name: string } }
 
   if (!player) redirect('/characters')
 
-  const deaths = await prisma.player_deaths.findMany({ where: { player_id: player.id }, take: 5 })
+  const deaths = await prisma.player_deaths.findMany({ where: { player_id: player.id }, take: 5, orderBy: { time: 'desc' } })
 
   const LoyaltRaking = (raking: number) => {
     if (raking >= 5000 && raking < 10000) {
@@ -136,7 +136,7 @@ export default async function Character({ params }: { params: { name: string } }
                   <TableCell>{player?.level}</TableCell>
                 </TableRow> */}
 
-                {!player.guilds && player.guild_membership?.guilds && (<TableRow>
+                {!player.guilds?.name && player.guild_membership?.guilds && (<TableRow>
                   <TableCell>Guild Membership:</TableCell>
                   <TableCell> A  member of the <Link href={`/guilds/${player.guild_membership?.guilds.name}`} className="text-blue-500 hover:underline">{player.guild_membership?.guilds.name}</Link></TableCell>
                 </TableRow>)}
@@ -226,7 +226,7 @@ export default async function Character({ params }: { params: { name: string } }
                     <TableRow key={index} >
                       <TableCell className="text-right">{index + 1}</TableCell>
                       <TableCell className="whitespace-nowrap">{fUnixToDate(Number(death.time))}</TableCell>
-                      <TableCell className="w-full"><Link href={`/characters/${player?.name}`} className="text-blue-500">{player?.name}</Link>  died at level <b>{death.level}</b> by {death.is_player && 'a '} {death.is_player ? <Link href={`/characters/${death.killed_by}`} className="text-blue-500">{death.killed_by}</Link> : death.killed_by} </TableCell>
+                      <TableCell className="w-full">{player?.name}  died at level <b>{death.level}</b> by {death.is_player && 'a '} {death.is_player ? <Link href={`/characters/${death.killed_by}`} className="text-blue-500">{death.killed_by}</Link> : death.killed_by} </TableCell>
                     </TableRow>
                   )
                 })}

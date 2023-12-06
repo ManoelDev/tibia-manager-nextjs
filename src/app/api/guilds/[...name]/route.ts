@@ -20,7 +20,8 @@ export async function GET(request: Request, { params }: { params: Params }) {
           name: true
         }
       }
-    }
+    },
+    take: 25
   });
   return NextResponse.json(convertBigIntsToNumbers(characters));
 }
