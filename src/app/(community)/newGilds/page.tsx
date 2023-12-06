@@ -11,7 +11,7 @@ import Link from "next/link";
 
 export const revalidate = 0
 
-const ITEMS_PER_PAGE = 10
+const ITEMS_PER_PAGE = 25
 
 async function fetchGuilds({ page, search }: { search: string, page: number }) {
   const offset = (page - 1) * ITEMS_PER_PAGE;
@@ -36,12 +36,18 @@ async function fetchGuilds({ page, search }: { search: string, page: number }) {
   }
 }
 
+async function getPlayers(account_id: number) {
+  const players = await prisma.players.findMany({ where: { account_id, level: { gte: 8 }, guild_membership: null } })
+  return { players }
+}
+
 export default async function Guilds({ searchParams }: { searchParams?: { search?: string; page?: string; } }) {
   const session = await getServerSession(authOptions)
   const search = searchParams?.search || '';
   const page = Number(searchParams?.page) || 1;
   const { guilds, totalPage, } = await fetchGuilds({ page, search });
 
+  const { players } = session?.user.id ? await getPlayers(+session?.user.id) : { players: [] };
 
   return (
     <Card>
@@ -54,7 +60,7 @@ export default async function Guilds({ searchParams }: { searchParams?: { search
           <div className="flex justify-between items-center text-sm">
             Can&apos;t find the guild you&apos;re looking for?
             {session?.user.id
-              ? (<CreateGuild />)
+              ? (<CreateGuild players={players} />)
               : (<Link href={'/account-manager/login'} className="text-blue-500 py-2">Log in to create</Link>)
             }
           </div>

@@ -1,8 +1,9 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { players } from "@prisma/client";
 
-export default function CreateGuild() {
+export default function CreateGuild({ players }: { players: players[] }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -16,7 +17,9 @@ export default function CreateGuild() {
           form de criação de guild
         </div>
         <DialogFooter>
-          <Button variant={'outline'}>Cancel</Button>
+          <DialogClose asChild>
+            <Button variant={'outline'}>Cancel</Button>
+          </DialogClose>
           <Button type="submit">Create Guild</Button>
         </DialogFooter>
       </DialogContent>
