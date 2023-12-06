@@ -109,7 +109,7 @@ export default async function GuildData({ params }: { params: { name: string } }
                 Guild information
               </div>
               <div className="p-2">
-                <Typography variant="body1" component={'blockquote'} className="my-4 text-sm font-medium">{guild.description}</Typography>
+                <Typography variant="body1" component={'blockquote'} className="my-4 text-sm font-medium">{`${guild.description.toString()}`}</Typography>
                 <Typography variant="body1" className="text-sm">
                   <Link href={`/characters/${guild.players.name}`} className="text-blue-500 hover:underline">{guild.players.name}</Link> is guild leader of {guild.name}.</Typography>
                 <Typography variant="body1" className="text-sm">The guild founded on {lua['serverName']} in {dayjs.unix(Number(guild.creationdata)).format('MMMM D YYYY')}.</Typography>

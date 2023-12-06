@@ -136,15 +136,15 @@ export default async function Character({ params }: { params: { name: string } }
                   <TableCell>{player?.level}</TableCell>
                 </TableRow> */}
 
-                {!player.guilds?.name && player.guild_membership?.guilds && (<TableRow>
+                {player.guild_membership?.guilds && (<TableRow>
                   <TableCell>Guild Membership:</TableCell>
                   <TableCell>{player?.guild_membership?.guild_ranks.name} of the <Link href={`/guilds/${player.guild_membership?.guilds.name}`} className="text-blue-500 hover:underline">{player.guild_membership?.guilds.name}</Link></TableCell>
                 </TableRow>)}
-
+                {/*
                 {player.guilds?.name && (<TableRow>
                   <TableCell>Guild Membership:</TableCell>
                   <TableCell> A Leader of the <Link href={`/guilds/${player.guilds?.name}`} className="text-blue-500 hover:underline">{player.guilds?.name}</Link></TableCell>
-                </TableRow>)}
+                </TableRow>)} */}
 
 
                 <TableRow>

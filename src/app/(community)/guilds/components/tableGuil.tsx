@@ -100,7 +100,7 @@ export default function TableGuild() {
                     </TableCell>
                     <TableCell className="w-full">
                       <Typography component={'span'} variant={'h6'}>{guild.name}</Typography>
-                      <Typography component={'p'} variant={'body1'} className=" line-clamp-2 text-sm">{guild.description}</Typography>
+                      <Typography component={'p'} variant={'body1'} className=" line-clamp-2 text-sm">{`${guild.description.toString()}`}</Typography>
                     </TableCell>
                     <TableCell className="whitespace-nowrap">
                       <Typography component={'span'} variant={'overline'}>{guild.players.name}</Typography>
