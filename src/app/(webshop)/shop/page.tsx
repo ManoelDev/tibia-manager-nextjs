@@ -97,7 +97,7 @@ export default function PremiumHistory() {
 
   return (
     <>
-      <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID! }}>
+      <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!, currency: 'USD' }}>
 
         <Card>
           <CardHeader className="border-b">
@@ -286,23 +286,33 @@ export default function PremiumHistory() {
                               return order.id
                             }}
                             onApprove={async (data, actions) => {
-                              await fetch(`/api/shop/paypal/orders/${data.orderID}/capture`, {
+                              const response = await fetch(`/api/shop/paypal/orders/${data.orderID}/capture`, {
                                 method: "post",
                                 body: JSON.stringify({
                                   type: watch('category'),
                                   quantity: selectedProduct.quantity,
-                                  payerID: data.payerID,
-                                  paymentID: data.paymentID
                                 })
                               })
-                              route.push('/account-manager')
+
+                              if (response.status === 201) {
+                                route.push('/account-manager')
+                                toast({
+                                  variant: 'success',
+                                  title: "Account Manager",
+                                  description: (
+                                    <div>Add {selectedProduct.quantity} {watch('category') === 'premdays' ? 'premium days' : 'coins'}</div>
+                                  ),
+                                })
+                                return
+                              }
                               toast({
-                                variant: 'success',
+                                variant: 'destructive',
                                 title: "Account Manager",
                                 description: (
-                                  <div>Add {selectedProduct.quantity} {watch('category') === 'premdays' ? 'premium days' : 'coins'}</div>
+                                  <div>Failed to payment.</div>
                                 ),
                               })
+
                             }}
                             onCancel={async (data, actions) => {
                               console.log('data', data)
