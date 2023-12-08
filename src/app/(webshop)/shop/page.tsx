@@ -97,7 +97,7 @@ export default function PremiumHistory() {
 
   return (
     <>
-      <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!, currency: process.env.CURRENCY ?? 'USD' }}>
+      <PayPalScriptProvider options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!, currency: process.env.NEXT_PUBLIC_CURRENCY ?? 'USD' }}>
 
         <Card>
           <CardHeader className="border-b">
