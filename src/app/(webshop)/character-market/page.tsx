@@ -154,7 +154,7 @@ export default async function CharacterMarket({ searchParams }: { searchParams?:
                       <li>Magic Level: {player?.maglevel}</li>
                       <li>Fist: {player?.skill_fist}</li>
                       <li>Club: {player?.skill_club}</li>
-                      <li>Sword: {player?.skill_club}</li>
+                      <li>Sword: {player?.skill_sword}</li>
                       <li>Axe: {player?.skill_axe}</li>
                       <li>Distance: {player?.skill_dist}</li>
                       <li>Shielding: {player?.skill_shielding}</li>
