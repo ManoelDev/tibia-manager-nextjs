@@ -146,7 +146,7 @@ export default async function CharacterMarket({ searchParams }: { searchParams?:
                     </TableCell>
                     <TableCell>
                       <div className="flex flex-row items-center gap-3">
-                        {character.price} <Image src="/icons/icon-tibiacoin.png" alt="tibiacointrusted" width={16} height={16} className=" w-[12px] h-[12px]" />
+                        {character.price} <Image src="/icons/icon-tibiacointrusted.png" alt="tibiacointrusted" width={16} height={16} className=" w-[12px] h-[12px]" />
                       </div>
                     </TableCell>
                     <TableCell className="pl-6">
