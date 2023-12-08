@@ -97,16 +97,19 @@ const CreateOrders = async (req: Request) => {
 
     const { jsonResponse, httpStatusCode } = await createOrder({ cart: { currency_code, value } });
 
-    await prisma.orders.create({
-      data: {
-        account_id: account.id,
-        currency: currency_code,
-        orderID: jsonResponse.id,
-        description: description,
-        total_amount: value,
-        status: jsonResponse.status === 'CREATED' ? 'PENDING' : 'CANCELED'
-      }
-    })
+    if (httpStatusCode === 201) {
+      await prisma.orders.create({
+        data: {
+          account_id: account.id,
+          currency: currency_code,
+          orderID: jsonResponse.id,
+          description: description,
+          total_amount: value,
+          status: jsonResponse.status === 'CREATED' ? 'PENDING' : 'CANCELED'
+        }
+      })
+    }
+
 
     return NextResponse.json(jsonResponse, { status: httpStatusCode });
 

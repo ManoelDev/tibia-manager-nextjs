@@ -8,7 +8,7 @@ import EditProduct from "./edit-product";
 
 
 
-export default function TableAction({ product }: { product: { id: number, title: string, price: string, quantity: number | null, category_id: number, img: string } }) {
+export default function TableAction({ product }: { product: { id: number, title: string, price: string, currency: string, quantity: number | null, category_id: number, img: string } }) {
   const route = useRouter()
 
   const deleteItem = async (id: number) => {
@@ -43,8 +43,9 @@ export default function TableAction({ product }: { product: { id: number, title:
           <EditProduct product={{
             id: product.id,
             category: product.category_id.toString(),
-            img: product.img,
+            img: product.img ?? '',
             price: product.price,
+            currency: product.currency,
             quantity: product.quantity?.toString() ?? '',
             title: product.title
           }} />

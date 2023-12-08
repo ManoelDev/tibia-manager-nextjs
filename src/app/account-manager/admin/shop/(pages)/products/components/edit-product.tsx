@@ -17,6 +17,7 @@ const FormSchema = z.object({
   img: z.custom<File>((file) => file instanceof File, 'Required'),
   title: z.string(),
   price: z.string(),
+  currency: z.string(),
   category: z.string(),
   quantity: z.string()
 })
@@ -28,7 +29,7 @@ interface FormValues extends Omit<ItemFormValues, 'img'> {
 }
 
 
-export default function EditProduct({ product }: { product: { id: number, img: string, title: string, price: string, quantity: string, category: string } }) {
+export default function EditProduct({ product }: { product: { id: number, img: string, title: string, price: string, quantity: string, category: string, currency: string } }) {
 
   const route = useRouter()
 
@@ -40,6 +41,7 @@ export default function EditProduct({ product }: { product: { id: number, img: s
       title: product.title,
       category: product.category,
       price: product.price,
+      currency: product.currency,
       quantity: product.quantity,
       img: product.img
     }
@@ -65,6 +67,7 @@ export default function EditProduct({ product }: { product: { id: number, img: s
       data.set('img', values.img)
       data.set('title', formData.title)
       data.set('price', formData.price)
+      data.set('currency', formData.currency)
       data.set('category', formData.category)
       data.set('quantity', formData.quantity)
       const res = await fetch(`/api/administration/shop/products/${product.id}`, { method: 'PUT', body: data })
@@ -114,7 +117,7 @@ export default function EditProduct({ product }: { product: { id: number, img: s
               ]}
               LabelOption={'label'}
               keyValue={'value'}
-              defaultValue='USD'
+              defaultValue={watch('currency')}
             />
             <RHFTextField name="quantity" label="Amount" />
           </div>

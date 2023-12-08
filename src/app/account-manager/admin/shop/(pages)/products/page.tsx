@@ -79,6 +79,7 @@ export default async function AdminProducts() {
                     id: product.id,
                     category_id: product.category_id,
                     price: product.price,
+                    currency: product.currency!,
                     quantity: product.quantity,
                     title: product.title,
                     img: `/shop/${product.img_url}`
