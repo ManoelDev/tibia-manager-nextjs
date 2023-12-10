@@ -55,7 +55,7 @@ export default function PaymentDetails({ orderID, account_id }: { orderID: strin
               </TableRow>
               <TableRow>
                 <TableCell className="w-[120px] text-xs font-medium">Created:</TableCell>
-                <TableCell className="text-xs font-medium">{dayjs(response?.created_time).format('d/MM/YYYY HH:mm')}</TableCell>
+                <TableCell className="text-xs font-medium">{dayjs(response?.created_time).format('D/MM/YYYY HH:mm')}</TableCell>
               </TableRow>
 
               <TableRow>
