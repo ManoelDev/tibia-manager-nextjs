@@ -9,6 +9,9 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { CancelOrderButton } from "./components/cancel-order-button";
+import PaymentDetails from "./components/payment-details";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 async function getPaymentsHistory(id: number) {
   const account = await prisma.orders.findMany({
@@ -35,6 +38,7 @@ export default async function PaymentsHistory() {
   if (!history) redirect('/')
 
   return (
+
     <>
       <Card>
         <CardHeader className="border-b">
@@ -45,22 +49,45 @@ export default async function PaymentsHistory() {
             <Table>
               <TableHeader className="pointer-events-none">
                 <TableRow>
-                  <TableHead className="">Payment ID</TableHead>
+                  <TableHead className="">Order ID</TableHead>
+                  {/* <TableHead className="">Payment ID</TableHead> */}
                   <TableHead className="w-full">Description</TableHead>
                   <TableHead className="whitespace-nowrap">Order Create</TableHead>
                   <TableHead className="whitespace-nowrap">Provider</TableHead>
                   <TableHead className="w-[100px] text-center">Status</TableHead>
+                  <TableHead className="w-[100px] text-center">Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {history.map((order, i) =>
                 (<TableRow key={i.toString()}>
-                  <TableCell className="text-xs font-medium">{order.paymentID}</TableCell>
+                  <TableCell className="text-xs font-medium">{order.orderID}</TableCell>
+                  {/* <TableCell className="text-xs font-medium">{order.paymentID}</TableCell> */}
                   <TableCell>{order.description}</TableCell>
                   <TableCell>{dayjs(order.createdAt).format('DD/MM/YYYY')}</TableCell>
                   <TableCell className="text-center"><Image src='/payments/paymentmethodcategory31.gif' width={69} height={23} alt="PayPal" /></TableCell>
                   <TableCell className="text-center">
                     <Badge variant={STATUS_TYPE[order.status]} className="w-full justify-center">{order.status}</Badge>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0" size={'sm'}>
+                          <span className="sr-only">Open menu</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
+                            <path fill="currentColor" d="M144 128a16 16 0 1 1-16-16a16 16 0 0 1 16 16Zm-84-16a16 16 0 1 0 16 16a16 16 0 0 0-16-16Zm136 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16Z" />
+                          </svg>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="space-y-1">
+                        <DropdownMenuItem asChild><PaymentDetails orderID={order.orderID} /></DropdownMenuItem>
+                        {order.status === 'PENDING' && (
+                          <DropdownMenuItem>
+                            <CancelOrderButton order={order.orderID} />
+                          </DropdownMenuItem>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </TableCell>
                 </TableRow>)
                 )}
