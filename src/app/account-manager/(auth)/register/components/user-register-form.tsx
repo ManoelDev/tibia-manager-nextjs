@@ -72,7 +72,7 @@ export function UseRegisterForm({ className, ...props }: UseRegisterFormProps) {
         name: data.accountName,
         email: data.email,
         password: data.password,
-        gender: data.gender === '0' ? 'male' : 'female',
+        gender: data.gender === '0' ? 'Female' : 'Male',
         characterName: data.characterName,
       }),
     }).then(async (res) => {
