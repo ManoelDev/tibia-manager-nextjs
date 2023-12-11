@@ -118,7 +118,7 @@ export default async function Character({ params }: { params: { name: string } }
 
                 <TableRow>
                   <TableCell>Sex:</TableCell>
-                  <TableCell>{player?.sex ? 'male' : 'Female'}</TableCell>
+                  <TableCell>{player?.sex === 0 ? 'Female' : 'Male'}</TableCell>
                 </TableRow>
 
                 <TableRow>

@@ -196,7 +196,7 @@ function Actions({ player }: { player: players }) {
                     </TableRow>
                     <TableRow>
                       <TableCell>Sec:</TableCell>
-                      <TableCell>{player.sex === 0 ? 'Male' : 'Female'}</TableCell>
+                      <TableCell>{player.sex === 0 ? 'Female' : 'Male'}</TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
