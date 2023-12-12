@@ -1,39 +1,40 @@
 'use client'
 import { Button } from "@/components/ui/button";
 import { GetAccount, detailsOrder } from "./actions";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { useState } from "react";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { useToast } from "@/components/ui/use-toast";
+
 
 export default function PaymentDetails({ orderID, account_id }: { orderID: string, account_id: number }) {
-  const { toast } = useToast()
+
   const [showDialog, setShowDialog] = useState(false)
-  const [response, setResponse] = useState<any>()
-  const [account, setAccount] = useState<any>()
+  const [response, setResponse] = useState<any>({})
+  const [account, setAccount] = useState<any>({})
+
+  useEffect(() => {
+    if (showDialog)
+      GetAccount(account_id).then((account) => {
+        setAccount(account)
+      })
+
+    detailsOrder(orderID).then((order) => {
+      console.log('detailsOrder', order)
+      setResponse(order.jsonResponse)
+      return order
+    })
+
+  }, [account_id, orderID, showDialog])
+
+
   return (<>
     <Dialog open={showDialog} onOpenChange={setShowDialog} >
       <Button
         className="text-xs py-1 px-2 line-clamp-1 h-auto w-full text-left"
         variant={'ghost'}
-        onClick={async () => {
-          try {
-            const { jsonResponse, httpStatusCode } = await detailsOrder(orderID)
-            const account = await GetAccount(account_id)
-            if (httpStatusCode === 200) {
-              setResponse(jsonResponse)
-              setAccount(account)
-              setShowDialog(true)
-            }
-          } catch (error) {
-            console.log('Error:', error)
-            return toast({
-              title: 'Error',
-              description: (<>Error: {error}</>)
-            })
-          }
-
+        onClick={() => {
+          setShowDialog(true)
         }}
       >
         Details
