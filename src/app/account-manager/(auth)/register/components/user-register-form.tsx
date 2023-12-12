@@ -25,7 +25,7 @@ const passwordLowercase = z.string().regex(/[a-z]/, 'The password must contain a
 const passwordDigit = z.string().regex(/\d/, 'The password must contain at least one numeric digit');
 const passwordSpecialChar = z.string().regex(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/, 'The password must contain at least one special character');
 
-const sexOptions = [{ value: '0', label: 'Male' }, { value: '1', label: 'Female' }]
+const sexOptions = [{ value: '0', label: 'Female' }, { value: '1', label: 'Male' }]
 
 export function UseRegisterForm({ className, ...props }: UseRegisterFormProps) {
   const router = useRouter();
