@@ -19,7 +19,7 @@ export default async function Character({ params }: { params: { name: string } }
   const player = await prisma.players.findFirst({
     where: {
       AND: [
-        { name: { contains: params['name'] ? decodeURIComponent(params['name']) : undefined } },
+        { name: { equals: params['name'] ? decodeURIComponent(params['name']) : undefined } },
         { id: { not: { in: [1, 2, 3, 4, 5] } } },
         { group_id: { not: { in: [6] } } },
       ],
