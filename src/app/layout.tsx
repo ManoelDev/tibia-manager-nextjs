@@ -128,11 +128,6 @@ export default async function RootLayout({
                 </div>
 
                 <div className='sm:col-span-2 col-span-1 hidden sm:block gap-2'>
-
-
-
-
-
                   {/* <div className='flex flex-row justify-center items-end h-full pb-2 gap-2'>
                     <div className='bg-background/10 shadow rounded-sm backdrop-blur-[6px] p-3'>
                       <Boosted boosted={{
@@ -244,7 +239,7 @@ export default async function RootLayout({
                       </CardHeader>
                       <CardContent className='flex flex-row justify-between'>
 
-
+                        {boostedCreature && boostedCreature[0] && (
                         <Boosted boosted={{
                           boostname: boostedCreature[0].id,
                           lookaddons: 0,
@@ -255,7 +250,9 @@ export default async function RootLayout({
                           lookmount: 0,
                           looktype: boostedCreature[0].id
                         }} kind="creature" />
+                        )}
 
+                        {boostedBoss && boostedBoss[0] && (
                         <Boosted boosted={{
                           boostname: boostedBoss[0].id,
                           lookaddons: 0,
@@ -266,6 +263,8 @@ export default async function RootLayout({
                           lookmount: 0,
                           looktype: boostedBoss[0].id
                         }} kind="boss" />
+                        )}
+                        
                       </CardContent>
                     </Card>
 
