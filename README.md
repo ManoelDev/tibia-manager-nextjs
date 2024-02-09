@@ -1,44 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NT Tibia Account Manager
 
-## Getting Started
-
-First, run the development server:
-
-1. download outfit_anim: https://ots.me/downloads/?dir=data/outfit-images
-2. copy outfits_anim to root directory
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Description
+NT Tibia Account Manager is a platform developed with Next.js for managing accounts in the Tibia game. 
+It offers advanced features such as a new purchasing system, two-factor authenticator (2FA), transaction history, email authentication, account recovery system (RK) and password recovery. These features aim to ensure security, transparency and convenience for players, allowing for effective and protected management of their accounts.
 
 
-## Support
+## Features
+- New Shopping (redesigned with a new api).
+- 2FA protection system (Famous Two Factor Authenticator).
+- History of donations / coins / vip time.
+- Email Authentication System.
+- New System of RK - Recovery Key
+- New System Recovery Password
 
-Discord: manoelneto.
+## Prerequisites:
+- Git [`Git-SCM`](https://git-scm.com/downloads)  
+- Node.js and npm installed on your machine [`NodeJs`](https://nodejs.org/en/download/current)  
+- Text Editor - Recommended [`VSCode`](https://code.visualstudio.com/)
+- Basic knowledge of JavaScript and React
+- MySQL
+
+## Getting Started Development Tutorial
+[`EN_US`](./tutorial-en_US.md)</br>
+[`PT_BR`](./tutorial-pt_BR.md)
+
+
+## Did you like the project and want to make a donation?
+[![PAYPAL](https://viatesting.files.wordpress.com/2020/03/paypal-donate-button.png 'PayPal')](https://www.paypal.com/donate/?business=QY9D9NP8GR7XW&no_recurring=0&item_name=Para+ajuda&currency_code=BRL)
+
+### Direct support
+Mail: progamoltda@gmail.com</br>
+Discord: manoelneto. | Neto#1846
