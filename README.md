@@ -30,4 +30,4 @@ It offers advanced features such as a new purchasing system, two-factor authenti
 
 ### Direct support
 Mail: progamoltda@gmail.com</br>
-Discord: manoelneto. | Neto#1846
+Discord: progamo
